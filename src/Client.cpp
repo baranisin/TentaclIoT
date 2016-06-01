@@ -28,13 +28,13 @@ void Client::platformConfigure() {
     }
 }
 
-//void Client::outputActualConfiguration()  {
-//    if(isDiscovering()){
-//        config->writeOutput(discoveryThread->getDiscoveredResources(), registeredResources);
-//
-//        printActualDiscoveredResources();
-//    }
-//}
+void Client::outputActualConfiguration()  {
+    if(isDiscovering()){
+        config->writeOutput(discoveryThread->getDiscoveredResources(), registeredResources);
+
+        printActualDiscoveredResources();
+    }
+}
 
 void Client::printActualDiscoveredResources(){
     if(isDiscovering()){
@@ -75,24 +75,24 @@ bool Client::isDiscovering() {
     return discoveryThread->isRunningDiscovery();
 }
 
-/*bool Client::registerResourceFromDiscovery(const string &uri) {
-    try {
-
-        if(isDiscovering()){
-            RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
-            registeredResources[uri] = res;
-            return true;
-        }
-
-    }catch(NotInDiscoveredResException e){
-        cout << e.what() << endl;
-        cout << "URI: " << uri << endl;
-    }catch (MoreResWithSameURIException e){
-        cout << e.what() << endl;
-        cout << "URI: " << uri << endl;
-    }
-    return false;
-}*/
+//bool Client::registerResourceFromDiscovery(const string &uri) {
+//    try {
+//
+//        if(isDiscovering()){
+//            RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
+//            registeredResources[uri] = res;
+//            return true;
+//        }
+//
+//    }catch(NotInDiscoveredResException e){
+//        cout << e.what() << endl;
+//        cout << "URI: " << uri << endl;
+//    }catch (MoreResWithSameURIException e){
+//        cout << e.what() << endl;
+//        cout << "URI: " << uri << endl;
+//    }
+//    return false;
+//}
 
 
 

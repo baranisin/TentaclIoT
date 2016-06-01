@@ -1,26 +1,22 @@
-
+#include <thread>
 #include "Configuration.h"
 
 void Configuration::writeOutput(
-        map<string, RCSRemoteResourceObject::Ptr> regResourcesMap,
-        map<string, RCSRemoteResourceObject::Ptr> discoveredResMap){
+        map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
+        map<string, RCSRemoteResourceObject::Ptr> regResourcesMap){
     Json::StyledWriter writer;
     Json::Value resourcesJson;
     resourcesJson["discovered_resources"] = getJsonFromMap(discoveredResMap);
+    resourcesJson["registered_resources"] = getJsonFromMap(regResourcesMap);
 
     ofstream outputFile;
-    outputFile.open(OUTPUT_FILE.c_str(), ios::out);
+    outputFile.open(OUTPUT_FILE.c_str(), ios::out | ios::trunc);
 
     if(outputFile.is_open()){
-        outputFile <<  "FILE" << endl;
-        cout << "---------------------------" << endl;
-        cout << writer.write(resourcesJson) << endl;
-        cout << "---------------------------" << endl;
-        cout << "---------------------------" << endl;
-
         outputFile << writer.write(resourcesJson) << endl;
-        outputFile.flush();
         outputFile.close();
+    }else{
+
     }
 }
 
@@ -34,24 +30,66 @@ Json::Value Configuration::getJsonFromMap(map<string, RCSRemoteResourceObject::P
 };
 
 Json::Value Configuration::getJsonResource(string first, RCSRemoteResourceObject::Ptr second){
+    RCSRemoteResourceObject::RemoteAttributesGetCallback onReceivedCallback = bind(
+            &Configuration::onRemoteAttributesReceived,
+            this,
+            placeholders::_1,
+            placeholders::_2
+    );
+    second->getRemoteAttributes(onReceivedCallback);
+    this_thread::sleep_for(chrono::milliseconds(100));
+
     Json::Value resourceJson;
     resourceJson["absolute_uri"] = first;
-    Json::Value types(Json::arrayValue);
-    Json::Value ifaces(Json::arrayValue);
-
-    for(string &type : second->getTypes()) {
-        types.append(Json::Value(type));
-    }
-    resourceJson["types"] = types;
-
-    for (string &iface : second->getInterfaces()) {
-        ifaces.append(Json::Value(iface));
-    }
-    resourceJson["interfaces"] = ifaces;
-
+    resourceJson["types"] = getResTypesToJson(second);
+    resourceJson["interfaces"] = getResInterfacesToJson(second);
+    resourceJson["relative_uri"] = second->getUri();
+    resourceJson["adress"] = second->getAddress();
+    resourceJson["state"] = (int) second->getState();
+    resourceJson["attributes"] = receivedAttributes;
     return resourceJson;
 }
 
-void Configuration::readInput(){
-
+void Configuration::onRemoteAttributesReceived(const RCSResourceAttributes& attributes, int){
+    Json::Value attributesJson;
+    for(auto &attr : attributes){
+        attributesJson[attr.key()] = attr.value().toString();
+    }
+    receivedAttributes = attributesJson;
 }
+
+Json::Value Configuration::getResTypesToJson(RCSRemoteResourceObject::Ptr resPtr){
+    Json::Value types(Json::arrayValue);
+    for(string &type : resPtr->getTypes()) {
+        types.append(Json::Value(type));
+    }
+    return types;
+}
+
+Json::Value Configuration::getResInterfacesToJson(RCSRemoteResourceObject::Ptr resPtr) {
+    Json::Value ifaces(Json::arrayValue);
+    for (string &iface : resPtr->getInterfaces()) {
+        ifaces.append(Json::Value(iface));
+    }
+    return ifaces;
+}
+
+void Configuration::readInput(){
+    ifstream inputFile;
+    inputFile.open(INPUT_FILE.c_str(), ios::in);
+    if(inputFile.is_open()){
+
+    } else{
+
+    }
+}
+
+
+
+
+
+
+
+
+
+

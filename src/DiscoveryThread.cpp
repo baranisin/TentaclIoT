@@ -104,13 +104,9 @@ void DiscoveryThread::printResourceList() {
     }
 }
 
-vector<pair<string, RCSRemoteResourceObject::Ptr>> DiscoveryThread::getDiscoveredResources(){
+map<string, RCSRemoteResourceObject::Ptr> DiscoveryThread::getDiscoveredResources(){
     waitForAccessToDiscoveredResMap();
-    vector<pair<string, RCSRemoteResourceObject::Ptr>> resources{};
-    for(const auto &res : discoveredResources){
-        resources.push_back(pair<string, RCSRemoteResourceObject::Ptr>{res.first, res.second});
-    }
-    return resources;
+    return discoveredResources;
 };
 
 

@@ -8,6 +8,7 @@ int main() {
 
     Client client = Client();
     client.startDiscovery();
-
+    sleep(3);
+    client.outputActualConfiguration();
     run_stopped.wait(lock);
 }

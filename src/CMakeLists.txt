@@ -6,7 +6,8 @@ set(SERVER_SOURCE_FILES Constants.h Server.cpp Server.h LightServer.cpp LightSer
 add_executable(serverSide serverMain.cpp ${SERVER_SOURCE_FILES})
 target_link_libraries(serverSide rcs_server rcs_common oc octbstack oc_logger)
 
-set(CLIENT_SOURCE_FILES Constants.h
+set(CLIENT_SOURCE_FILES
+        Constants.h
         Client.h
         Client.cpp
         DiscoveryThread.cpp
@@ -15,8 +16,8 @@ set(CLIENT_SOURCE_FILES Constants.h
         ResourceRepresentation.h
         ResourceRepresentationBuilder.cpp
         ResourceRepresentationBuilder.h
-#        Configuration.cpp
-#        Configuration.h
+        Configuration.cpp
+        Configuration.h
         LightResource.cpp
         LightResource.h
         UnknownTypeResRepr.cpp

@@ -59,7 +59,7 @@ public:
 
     bool hasDiscoveryType(const string &type);
 
-    vector<pair<string, RCSRemoteResourceObject::Ptr>> getDiscoveredResources();
+    map<string, RCSRemoteResourceObject::Ptr> getDiscoveredResources();
 
     bool hasResource(const string &uri);
 

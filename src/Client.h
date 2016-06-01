@@ -34,7 +34,7 @@ public:
 
     bool isDiscovering();
 
-//    void outputActualConfiguration();
+    void outputActualConfiguration();
 
     void printActualDiscoveredResources();
 
