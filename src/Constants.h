@@ -17,6 +17,7 @@ static const string SENSOR_INTERFACE = "oic.if.s";
 static const string CUSTOM_INTERFACE = "lib.custom";
 static const string EMPTY_STRING = "";
 static const string NAME_FORBIDDEN_CHARS = "`~!@#$%^&*()=[]{};:'|\\/.><?";
+static const string DEFAULT_STRING = "DEFAULT";
 static const char REPLACEMENT_CHAR = '.';
 static const char SPACE_CHAR = ' ';
 static const char REPLACEMENT_FOR_SPACE = '_';

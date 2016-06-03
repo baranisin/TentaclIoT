@@ -1,5 +1,6 @@
 #include <RCSRemoteResourceObject.h>
 #include "jsoncpp/json/json.h"
+#include "ResourceRepresentation.h"
 #include <iostream>
 #include <fstream>
 
@@ -9,25 +10,34 @@
 using namespace OC;
 using namespace OIC::Service;
 using namespace std;
+struct ConfigReturnArguments{
+    string name;
+    string uri;
+    string type;
+};
 
 class Configuration {
     Json::Value receivedAttributes;
 
 
-    Json::Value getJsonFromMap(map<string, RCSRemoteResourceObject::Ptr> map);
-    Json::Value getJsonResource(string first, RCSRemoteResourceObject::Ptr second);
+    Json::Value getDiscoveredResJson(map<string, RCSRemoteResourceObject::Ptr> map);
+    Json::Value getJsonRemoteResource(string first, RCSRemoteResourceObject::Ptr second);
     Json::Value getResTypesToJson(RCSRemoteResourceObject::Ptr resPtr);
     Json::Value getResInterfacesToJson(RCSRemoteResourceObject::Ptr resPtr);
     void onRemoteAttributesReceived(const RCSResourceAttributes& attributes, int);
+
+    Json::Value getRegisteredResJson(map<string, ResourceRepresentation*> map);
+    Json::Value getJsonResourceRepr(string first, ResourceRepresentation* second);
+
 
 public:
     const string INPUT_FILE = "input.json";
     const string OUTPUT_FILE = "output.json";
     void writeOutput(
             map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
-            map<string, RCSRemoteResourceObject::Ptr> regResources
+            map<string, ResourceRepresentation*> regResources
     );
-    void readInput();
+    vector<pair<string, string>> readInput();
 };
 
 

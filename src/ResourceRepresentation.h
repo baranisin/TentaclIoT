@@ -53,6 +53,8 @@ protected:
         );
     }
 public:
+    virtual bool virtualServerIsRequired() = 0;
+
     const unsigned int getResourceId(){
         return resourceId;
     };

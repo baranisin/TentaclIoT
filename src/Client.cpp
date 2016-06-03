@@ -2,7 +2,7 @@
 
 Client::Client() {
     platformConfigure();
-    registeredResources = map<string, RCSRemoteResourceObject::Ptr>{};
+    registeredResources = map<string, ResourceRepresentation*>{};
     config = new Configuration();
 }
 
@@ -75,27 +75,55 @@ bool Client::isDiscovering() {
     return discoveryThread->isRunningDiscovery();
 }
 
-//bool Client::registerResourceFromDiscovery(const string &uri) {
-//    try {
-//
-//        if(isDiscovering()){
-//            RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
-//            registeredResources[uri] = res;
-//            return true;
-//        }
-//
-//    }catch(NotInDiscoveredResException e){
-//        cout << e.what() << endl;
-//        cout << "URI: " << uri << endl;
-//    }catch (MoreResWithSameURIException e){
-//        cout << e.what() << endl;
-//        cout << "URI: " << uri << endl;
-//    }
-//    return false;
-//}
+void Client::registerResourceFromDiscovery(const string &uri, const string &type) {
+    try {
+        if(isDiscovering()){
+            RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
+            string absURI = res->getAddress() + res->getUri();
 
+            string resType;
+            if(type == DEFAULT_STRING){
+                resType = res->getTypes()[0];
+            } else{
+                resType = type;
+            }
 
+            registeredResources[absURI] = ResourceRepresentationBuilder(discoveryThread, resType)
+                    .addResource(res)
+                    .setId(3)
+                    .build();
+
+        }
+    }catch(NotInDiscoveredResException e){
+        cout << e.what() << endl;
+        cout << "URI: " << uri << endl;
+    }catch (MoreResWithSameURIException e){
+        cout << e.what() << endl;
+        cout << "URI: " << uri << endl;
+    }
+}
 
 bool Client::hasResourceRegistered(const string &uri) {
     return registeredResources[uri] != nullptr;
 }
+
+void Client::loadConfiguration() {
+    for(pair<string, string> res : config->readInput()){
+
+        registerResourceFromDiscovery(
+                res.first,
+                res.second
+        );
+    }
+
+    printRegisteredResources();
+}
+
+void Client::printRegisteredResources() {
+    for (const auto &res : registeredResources) {
+        std::cout << "URI: " << res.second->getAbsoluteUri() << " has ID: " << res.second->getResourceId()<< std::endl;
+    }
+}
+
+
+

@@ -8,6 +8,9 @@
 #include "DiscoveryThread.h"
 #include "Server.h"
 #include "Configuration.h"
+#include "ResourceRepresentation.h"
+#include "ImplementedResourceTypes.h"
+#include "ResourceRepresentationBuilder.h"
 
 using namespace OC;
 using namespace OIC::Service;
@@ -20,7 +23,7 @@ using namespace std;
 class Client {
 private:
     DiscoveryThread* discoveryThread = nullptr;
-    map<string, RCSRemoteResourceObject::Ptr> registeredResources;
+    map<string, ResourceRepresentation*> registeredResources;
     Configuration *config;
     void platformConfigure();
 
@@ -38,10 +41,13 @@ public:
 
     void printActualDiscoveredResources();
 
+    void printRegisteredResources();
 
     bool hasResourceDiscovered(const string &uri);
 
-//    bool registerResources();
+    void loadConfiguration();
+
+    void registerResourceFromDiscovery(const string &uri, const string &type = DEFAULT_STRING);
 
     bool hasResourceRegistered(const string &uri);
 };
