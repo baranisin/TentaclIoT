@@ -3,7 +3,7 @@
 
 LightResource::LightResource(ResourceArgumentsBundle args) {
     brightnessValue = 0;
-    init(args.resId, args.resources.back());
+    init(args.resources.back());
 }
 
 LightResource::~LightResource() {
@@ -75,6 +75,14 @@ void LightResource::onCacheUpdated(const RCSResourceAttributes &attrs) {
     isWaitingForUpdate = false;
     brightnessValue = stoi(attrs.at(LightServer::BRIGHTNESS_ATTR).toString());
 }
+
+void LightResource::set(RCSResourceAttributes attrs) {
+    if(attrs.contains(LightServer::BRIGHTNESS_ATTR)){
+        setBrightness(stoi(attrs[LightServer::BRIGHTNESS_ATTR].toString()));
+    }
+}
+
+
 
 
 

@@ -13,8 +13,6 @@ using namespace std;
 
 class ResourceRepresentation {
 protected:
-
-    unsigned int resourceId;
     RCSRemoteResourceObject::Ptr resource;
     RCSRemoteResourceObject::RemoteAttributesSetCallback setCallback;
     RCSRemoteResourceObject::RemoteAttributesGetCallback getCallback;
@@ -22,8 +20,8 @@ protected:
     virtual void onAttrSet(const RCSResourceAttributes& attrs, int eCode) = 0;
     virtual void onAttrGet(const RCSResourceAttributes& attrs, int eCode) = 0;
     virtual void onCacheUpdated(const RCSResourceAttributes& attrs) = 0;
-    virtual void init(const unsigned int id, RCSRemoteResourceObject::Ptr r) = 0;
-    virtual void init(const unsigned int id, DiscoveryThread &dt) = 0;
+    virtual void init(RCSRemoteResourceObject::Ptr r) = 0;
+    virtual void init(DiscoveryThread &dt) = 0;
 
     bool isWaitingForUpdate = false;
     virtual void waitForUpdate(){
@@ -54,13 +52,10 @@ protected:
     }
 public:
     virtual bool virtualServerIsRequired() = 0;
-
-    const unsigned int getResourceId(){
-        return resourceId;
-    };
     string getAbsoluteUri() throw(NullPtrException){
         return resource->getAddress()+"/"+resource->getUri();
     };
+
     bool hasType(const string &t){
         if(resource == nullptr){
             throw NullPtrException();

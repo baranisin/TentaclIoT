@@ -22,11 +22,6 @@ ResourceRepresentationBuilder &ResourceRepresentationBuilder::setName(const stri
     return *this;
 }
 
-ResourceRepresentationBuilder &ResourceRepresentationBuilder::setId(const unsigned int &id) {
-    arguments.resId = id;
-    return *this;
-}
-
 
 
 

@@ -16,7 +16,7 @@ void Client::platformConfigure() {
 
         PlatformConfig config{
                 OC::ServiceType::InProc,
-                ModeType::Client,
+                ModeType::Both,
                 ALL_AVALAIBLE_INTERFACES,
                 RANDOMLY_AVALAIBLE_PORT,
                 OC::QualityOfService::LowQos
@@ -75,32 +75,29 @@ bool Client::isDiscovering() {
     return discoveryThread->isRunningDiscovery();
 }
 
-void Client::registerResourceFromDiscovery(const string &uri, const string &type) {
-    try {
-        if(isDiscovering()){
-            RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
-            string absURI = res->getAddress() + res->getUri();
+void Client::registerResourceFromDiscovery(const vector<string> &uris, const string &type) {
 
-            string resType;
-            if(type == DEFAULT_STRING){
-                resType = res->getTypes()[0];
-            } else{
-                resType = type;
+        if(isDiscovering()){
+            ResourceRepresentationBuilder builder = ResourceRepresentationBuilder(discoveryThread, type);
+            for (const string &uri : uris) {
+                try {
+
+                    RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
+                    string absURI = res->getAddress() + res->getUri();
+                    builder.addResource(res);
+
+                }catch(NotInDiscoveredResException e){
+                    cout << e.what() << endl;
+                    cout << "URI: " << uri << endl;
+                }catch (MoreResWithSameURIException e){
+                    cout << e.what() << endl;
+                    cout << "URI: " << uri << endl;
+                }
             }
 
-            registeredResources[absURI] = ResourceRepresentationBuilder(discoveryThread, resType)
-                    .addResource(res)
-                    .setId(3)
-                    .build();
-
+            ResourceRepresentation *resRepr = builder.build();
+            registeredResources[resRepr->getAbsoluteUri()] = resRepr;
         }
-    }catch(NotInDiscoveredResException e){
-        cout << e.what() << endl;
-        cout << "URI: " << uri << endl;
-    }catch (MoreResWithSameURIException e){
-        cout << e.what() << endl;
-        cout << "URI: " << uri << endl;
-    }
 }
 
 bool Client::hasResourceRegistered(const string &uri) {
@@ -108,7 +105,7 @@ bool Client::hasResourceRegistered(const string &uri) {
 }
 
 void Client::loadConfiguration() {
-    for(pair<string, string> res : config->readInput()){
+    for(pair<vector<string>, string> res : config->readInput()){
 
         registerResourceFromDiscovery(
                 res.first,
@@ -121,7 +118,7 @@ void Client::loadConfiguration() {
 
 void Client::printRegisteredResources() {
     for (const auto &res : registeredResources) {
-        std::cout << "URI: " << res.second->getAbsoluteUri() << " has ID: " << res.second->getResourceId()<< std::endl;
+        std::cout << "URI: " << res.second->getAbsoluteUri() << std::endl;
     }
 }
 

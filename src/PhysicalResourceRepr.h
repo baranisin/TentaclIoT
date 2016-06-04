@@ -7,13 +7,12 @@
 class PhysicalResourceRepr : public ResourceRepresentation{
 protected:
     const bool isVirtual = false;
-    virtual void init(const unsigned int id, RCSRemoteResourceObject::Ptr r){
-        resourceId = id;
+    virtual void init(RCSRemoteResourceObject::Ptr r){
         resource = r;
         initCallbacks();
         resource->startCaching(cacheCallback);
     }
-    void init(const unsigned int id, DiscoveryThread &dt){
+    void init(DiscoveryThread &dt){
         throw ForbiddenForPhysicalResException();
     };
 public:

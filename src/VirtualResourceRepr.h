@@ -9,14 +9,17 @@ class VirtualResourceRepr : public ResourceRepresentation{
 protected:
     const bool isVirtual = true;
     Server *virtualServer;
-    void init(const unsigned int id, RCSRemoteResourceObject::Ptr r) throw(ForbiddenForVirtualResException){
+
+    void init(RCSRemoteResourceObject::Ptr r) throw(ForbiddenForVirtualResException){
         throw ForbiddenForVirtualResException();
     };
-    void init(const unsigned int id, DiscoveryThread &dt){
-        resourceId = id;
+
+    void init(DiscoveryThread &dt){
         virtualServer = createVirtualServer();
         sleep(SECONDS_TO_SLEEP_DISCOVERY);
         resource = dt.getResource(virtualServer->getResourceURI());
+        resource->startCaching(cacheCallback);
+
     }
 public:
     virtual Server* createVirtualServer() = 0;

@@ -2,7 +2,6 @@
 
 UnknownTypeResRepr::UnknownTypeResRepr(ResourceArgumentsBundle args) {
     resource = args.resources.back();
-    resourceId = args.resId;
 }
 
 void UnknownTypeResRepr::onAttrSet(const RCSResourceAttributes &attrs, int eCode) {

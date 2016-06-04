@@ -1,13 +1,33 @@
 #include <thread>
 #include "Configuration.h"
 
+const string Configuration::INPUT_FILE = "input.json";
+const string Configuration::OUTPUT_FILE = "output.json";
+
+const string Configuration::DISCOVERED_RESOURCES_KEY = "discovered_resources";
+const string Configuration::REGISTERED_RESOURCES_KEY = "registered_resources";
+const string Configuration::RES_TO_REGISTER_KEY = "resources_to_register";
+
+const string Configuration::ABSOLUTE_URI_KEY = "absolute_uri";
+const string Configuration::TYPES_KEY = "types";
+const string Configuration::REPR_TYPE_KEY = "representation_type";
+const string Configuration::INTERFACES_KEY = "interfaces";
+const string Configuration::RELATIVE_URI_KEY = "relative_uri";
+const string Configuration::ADRESS_KEY = "adress";
+const string Configuration::STATE_KEY = "state";
+const string Configuration::ATTRIBUTES_KEY = "attributes";
+const string Configuration::ID_KEY = "id";
+const string Configuration::IS_VIRTUAL_TYPE_KEY = "is_virtual";
+const string Configuration::SOURCE_SERVERS_URIS_KEY = "source_uris";
+
+
 void Configuration::writeOutput(
         map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
         map<string, ResourceRepresentation*> regResourcesMap){
     Json::StyledWriter writer;
     Json::Value resourcesJson;
-    resourcesJson["discovered_resources"] = getDiscoveredResJson(discoveredResMap);
-    resourcesJson["registered_resources"] = getRegisteredResJson(regResourcesMap);
+    resourcesJson[DISCOVERED_RESOURCES_KEY] = getDiscoveredResJson(discoveredResMap);
+    resourcesJson[REGISTERED_RESOURCES_KEY] = getRegisteredResJson(regResourcesMap);
 
     ofstream outputFile;
     outputFile.open(OUTPUT_FILE.c_str(), ios::out | ios::trunc);
@@ -40,13 +60,13 @@ void Configuration::writeOutput(
             this_thread::sleep_for(chrono::milliseconds(100));
 
             Json::Value resourceJson;
-            resourceJson["absolute_uri"] = first;
-            resourceJson["types"] = getResTypesToJson(second);
-            resourceJson["interfaces"] = getResInterfacesToJson(second);
-            resourceJson["relative_uri"] = second->getUri();
-            resourceJson["adress"] = second->getAddress();
-            resourceJson["state"] = (int) second->getState();
-            resourceJson["attributes"] = receivedAttributes;
+            resourceJson[ABSOLUTE_URI_KEY] = first;
+            resourceJson[TYPES_KEY] = getResTypesToJson(second);
+            resourceJson[INTERFACES_KEY] = getResInterfacesToJson(second);
+            resourceJson[RELATIVE_URI_KEY] = second->getUri();
+            resourceJson[ADRESS_KEY] = second->getAddress();
+            resourceJson[STATE_KEY] = (int) second->getState();
+            resourceJson[ATTRIBUTES_KEY] = receivedAttributes;
             return resourceJson;
         }
 
@@ -77,9 +97,8 @@ Json::Value Configuration::getRegisteredResJson(map<string, ResourceRepresentati
 
 Json::Value Configuration::getJsonResourceRepr(string first, ResourceRepresentation* second){
     Json::Value resourceJson;
-    resourceJson["absolute_uri"] = first;
-    resourceJson["id"] = second->getResourceId();
-    resourceJson["virtual_type"] = second->virtualServerIsRequired();
+    resourceJson[ABSOLUTE_URI_KEY] = first;
+    resourceJson[IS_VIRTUAL_TYPE_KEY] = second->virtualServerIsRequired();
     return resourceJson;
 }
 
@@ -91,18 +110,26 @@ Json::Value Configuration::getResInterfacesToJson(RCSRemoteResourceObject::Ptr r
     return ifaces;
 }
 
-vector<pair<string, string>> Configuration::readInput(){
+vector<pair<vector<string>, string>> Configuration::readInput(){
     ifstream inputFile;
     Json::Reader reader;
     Json::Value inputJson;
     inputFile.open(INPUT_FILE.c_str(), ios::in);
+
     if(inputFile.is_open()){
         if(reader.parse(inputFile, inputJson)){
-            vector<pair<string, string>> resourcesToRegister;
-            for(Json::Value resourceJson : inputJson["register_resources"]){
-                pair<string, string> arguments;
-                arguments.first = resourceJson["relative_uri"].asString();
-                arguments.second = resourceJson["type"].asString();
+            vector<pair<vector<string>, string>> resourcesToRegister;
+
+            for(Json::Value resourceJson : inputJson[RES_TO_REGISTER_KEY]){
+                pair<vector<string>, string> arguments;
+                vector<string> uris;
+
+                for(const Json::Value &sourceUri : resourceJson[SOURCE_SERVERS_URIS_KEY]){
+                    uris.push_back(sourceUri.asString());
+                }
+
+                arguments.first = uris;
+                arguments.second = resourceJson[REPR_TYPE_KEY].asString();
 
                 resourcesToRegister.push_back(arguments);
             }

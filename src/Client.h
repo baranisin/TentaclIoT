@@ -47,7 +47,7 @@ public:
 
     void loadConfiguration();
 
-    void registerResourceFromDiscovery(const string &uri, const string &type = DEFAULT_STRING);
+    void registerResourceFromDiscovery(const vector<string> &uris, const string &type = DEFAULT_STRING);
 
     bool hasResourceRegistered(const string &uri);
 };

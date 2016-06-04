@@ -16,6 +16,7 @@ class LightResource : public PhysicalResourceRepr{
 public:
     LightResource(ResourceArgumentsBundle args);
     ~LightResource();
+    void set(RCSResourceAttributes attrs);
     void turnOff();
     void turnOn();
     int getBrightness();

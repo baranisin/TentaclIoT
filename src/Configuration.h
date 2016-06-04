@@ -31,13 +31,29 @@ class Configuration {
 
 
 public:
-    const string INPUT_FILE = "input.json";
-    const string OUTPUT_FILE = "output.json";
+    static const string INPUT_FILE;
+    static const string OUTPUT_FILE;
+
+    static const string DISCOVERED_RESOURCES_KEY;
+    static const string REGISTERED_RESOURCES_KEY;
+    static const string RES_TO_REGISTER_KEY;
+
+    static const string ABSOLUTE_URI_KEY;
+    static const string TYPES_KEY;
+    static const string REPR_TYPE_KEY;
+    static const string INTERFACES_KEY;
+    static const string RELATIVE_URI_KEY;
+    static const string ADRESS_KEY;
+    static const string STATE_KEY;
+    static const string ATTRIBUTES_KEY;
+    static const string ID_KEY;
+    static const string IS_VIRTUAL_TYPE_KEY;
+    static const string SOURCE_SERVERS_URIS_KEY;
     void writeOutput(
             map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
             map<string, ResourceRepresentation*> regResources
     );
-    vector<pair<string, string>> readInput();
+    vector< pair< vector<string>, string> > readInput();
 };
 
 
