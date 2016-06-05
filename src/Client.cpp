@@ -1,4 +1,5 @@
 #include "Client.h"
+#include "Rule.h"
 
 Client::Client() {
     platformConfigure();
@@ -114,6 +115,7 @@ void Client::loadConfiguration() {
     }
 
     printRegisteredResources();
+
 }
 
 void Client::printRegisteredResources() {
@@ -121,6 +123,7 @@ void Client::printRegisteredResources() {
         std::cout << "URI: " << res.second->getAbsoluteUri() << std::endl;
     }
 }
+
 
 
 

@@ -49,6 +49,10 @@ public:
     static const string ID_KEY;
     static const string IS_VIRTUAL_TYPE_KEY;
     static const string SOURCE_SERVERS_URIS_KEY;
+    static const string SERVICES_KEY;
+    static const string SERVICE_NAME_KEY;
+    static const string REQUIRE_ARGUMENT_KEY;
+
     void writeOutput(
             map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
             map<string, ResourceRepresentation*> regResources

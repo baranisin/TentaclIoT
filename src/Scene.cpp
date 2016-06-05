@@ -37,6 +37,39 @@ void Scene::turnOn() {
     }
 }
 
+void Scene::defineServices() {
+    pair<string, bool> turnOnService(TURN_ON_SERVICE_NAME, false);
+    pair<string, bool> turnOffService(TURN_OFF_SERVICE_NAME, false);
+
+    services.push_back(turnOnService);
+    services.push_back(turnOffService);
+}
+
+void Scene::callService(const string &service) {
+    int serviceId = getServiceId(service);
+
+    switch(serviceId){
+        case NOT_FOUND:
+            //TODO throw exception
+            break;
+        case TURN_ON:
+            turnOn();
+            break;
+        case TURN_OFF:
+            turnOff();
+            break;
+        default:
+           //TODO throw exception
+            break;
+    }
+
+
+}
+
+
+
+
+
 
 
 

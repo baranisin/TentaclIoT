@@ -16,6 +16,17 @@ void UnknownTypeResRepr::onCacheUpdated(const RCSResourceAttributes &attrs) {
 
 }
 
+void UnknownTypeResRepr::defineServices() {
+
+}
+
+void UnknownTypeResRepr::callService(const string &) {
+
+}
+
+
+
+
 
 
 

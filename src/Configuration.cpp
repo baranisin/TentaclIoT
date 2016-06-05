@@ -19,6 +19,9 @@ const string Configuration::ATTRIBUTES_KEY = "attributes";
 const string Configuration::ID_KEY = "id";
 const string Configuration::IS_VIRTUAL_TYPE_KEY = "is_virtual";
 const string Configuration::SOURCE_SERVERS_URIS_KEY = "source_uris";
+const string Configuration::SERVICES_KEY  = "services";
+const string Configuration::SERVICE_NAME_KEY  = "service_name";
+const string Configuration::REQUIRE_ARGUMENT_KEY  = "require_argument";
 
 
 void Configuration::writeOutput(
@@ -86,6 +89,14 @@ void Configuration::writeOutput(
                 return types;
             }
 
+            Json::Value Configuration::getResInterfacesToJson(RCSRemoteResourceObject::Ptr resPtr) {
+                Json::Value ifaces(Json::arrayValue);
+                for (string &iface : resPtr->getInterfaces()) {
+                    ifaces.append(Json::Value(iface));
+                }
+                return ifaces;
+            }
+
 Json::Value Configuration::getRegisteredResJson(map<string, ResourceRepresentation*>  map){
     Json::Value mapJson(Json::arrayValue);
     for(std::map<string, ResourceRepresentation*>::iterator it=map.begin(); it!=map.end(); ++it){
@@ -95,20 +106,22 @@ Json::Value Configuration::getRegisteredResJson(map<string, ResourceRepresentati
     return mapJson;
 }
 
-Json::Value Configuration::getJsonResourceRepr(string first, ResourceRepresentation* second){
-    Json::Value resourceJson;
-    resourceJson[ABSOLUTE_URI_KEY] = first;
-    resourceJson[IS_VIRTUAL_TYPE_KEY] = second->virtualServerIsRequired();
-    return resourceJson;
-}
-
-Json::Value Configuration::getResInterfacesToJson(RCSRemoteResourceObject::Ptr resPtr) {
-    Json::Value ifaces(Json::arrayValue);
-    for (string &iface : resPtr->getInterfaces()) {
-        ifaces.append(Json::Value(iface));
+    Json::Value Configuration::getJsonResourceRepr(string first, ResourceRepresentation* second){
+        Json::Value resourceJson;
+        resourceJson[ABSOLUTE_URI_KEY] = first;
+        resourceJson[IS_VIRTUAL_TYPE_KEY] = second->virtualServerIsRequired();
+        Json::Value services(Json::arrayValue);
+        for(auto &service : second->getServices()){
+            Json::Value serviceJson;
+            serviceJson[SERVICE_NAME_KEY] = service.first;
+            serviceJson[REQUIRE_ARGUMENT_KEY] = service.second;
+            services.append(serviceJson);
+        }
+        resourceJson[SERVICES_KEY] = services;
+        return resourceJson;
     }
-    return ifaces;
-}
+
+
 
 vector<pair<vector<string>, string>> Configuration::readInput(){
     ifstream inputFile;

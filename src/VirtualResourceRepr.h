@@ -15,6 +15,8 @@ protected:
     };
 
     void init(DiscoveryThread &dt){
+        initCallbacks();
+        defineServices();
         virtualServer = createVirtualServer();
         sleep(SECONDS_TO_SLEEP_DISCOVERY);
         resource = dt.getResource(virtualServer->getResourceURI());

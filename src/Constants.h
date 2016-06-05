@@ -20,6 +20,12 @@ static const string SWITCH_INTERFACE = "ocf.r.switch.binary";
 static const string SENSOR_INTERFACE = "oic.if.s";
 static const string CUSTOM_INTERFACE = "lib.custom";
 
+static const string TURN_ON_SERVICE_NAME = "turn_on";
+static const string TURN_OFF_SERVICE_NAME = "turn_off";
+static const string RAISE_BRIGHTNESS_SERVICE_NAME = "raise_brightness";
+static const string LOW_BRIGHTNESS_SERVICE_NAME = "low_brightness";
+static const string GET_BRIGHTNESS_SERVICE_NAME = "get_brightness";
+static const string SET_BRIGHTNESS_SERVICE_NAME = "set_brightness";
 static const string EMPTY_STRING = "";
 static const string NAME_FORBIDDEN_CHARS = "`~!@#$%^&*()=[]{};:'|\\/.><?";
 static const string DEFAULT_STRING = "DEFAULT";

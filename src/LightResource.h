@@ -9,6 +9,16 @@
 
 class LightResource : public PhysicalResourceRepr{
     int brightnessValue;
+    void defineServices();
+    enum servicesIds{
+        NOT_FOUND = -1,
+        TURN_ON,
+        TURN_OFF,
+        RAISE,
+        LOW,
+        GET,
+        SET,
+    };
 
     void onAttrSet(const RCSResourceAttributes& attrs, int eCode);
     void onAttrGet(const RCSResourceAttributes& attrs, int eCode);
@@ -24,6 +34,7 @@ public:
     void raiseBrightness();
     void lowBrightness();
     void onBrightnessChanged();
+    void callService(const string &service);
 };
 
 

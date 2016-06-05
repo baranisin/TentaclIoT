@@ -10,7 +10,9 @@ protected:
     virtual void init(RCSRemoteResourceObject::Ptr r){
         resource = r;
         initCallbacks();
+        defineServices();
         resource->startCaching(cacheCallback);
+
     }
     void init(DiscoveryThread &dt){
         throw ForbiddenForPhysicalResException();

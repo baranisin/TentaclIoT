@@ -74,6 +74,9 @@ void LightResource::onCacheUpdated(const RCSResourceAttributes &attrs) {
     cout << "----UPDATED---- Brightness: " << attrs.at(LightServer::BRIGHTNESS_ATTR).toString() << " -----------" << endl;
     isWaitingForUpdate = false;
     brightnessValue = stoi(attrs.at(LightServer::BRIGHTNESS_ATTR).toString());
+    for(OnAttrChangeListener* listener : listeners){
+        listener->onAttrChanged();
+    }
 }
 
 void LightResource::set(RCSResourceAttributes attrs) {
@@ -81,6 +84,58 @@ void LightResource::set(RCSResourceAttributes attrs) {
         setBrightness(stoi(attrs[LightServer::BRIGHTNESS_ATTR].toString()));
     }
 }
+
+void LightResource::defineServices() {
+    pair<string, bool> turnOnService(TURN_ON_SERVICE_NAME, false);
+    pair<string, bool> turnOffService(TURN_OFF_SERVICE_NAME, false);
+    pair<string, bool> raiseService(RAISE_BRIGHTNESS_SERVICE_NAME, false);
+    pair<string, bool> lowService(LOW_BRIGHTNESS_SERVICE_NAME, false);
+    pair<string, bool> getService(GET_BRIGHTNESS_SERVICE_NAME, false);
+    pair<string, bool> setService(SET_BRIGHTNESS_SERVICE_NAME, true);
+
+    services.push_back(turnOnService);
+    services.push_back(turnOffService);
+    services.push_back(raiseService);
+    services.push_back(lowService);
+    services.push_back(getService);
+    services.push_back(setService);
+
+}
+
+void LightResource::callService(const string &service) {
+    int serviceId = getServiceId(service);
+
+    switch(serviceId){
+        case NOT_FOUND:
+            //TODO throw exception
+            break;
+        case TURN_ON:
+            turnOn();
+            break;
+        case TURN_OFF:
+            turnOff();
+            break;
+        case RAISE:
+            raiseBrightness();
+            break;
+        case LOW:
+            lowBrightness();
+            break;
+        case GET:
+            serviceReturnStorage = getBrightness();
+            break;
+        case SET:
+            setBrightness(serviceArgumentStorage);
+            break;
+        default:
+            //TODO throw exception
+            break;
+    }
+}
+
+
+
+
 
 
 
