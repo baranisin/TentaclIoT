@@ -4,7 +4,7 @@ set(EXCEPTIONS_SOURCE_FILES exceptions/)
 
 set(SERVER_SOURCE_FILES Constants.h Server.cpp Server.h LightServer.cpp LightServer.h ${EXCEPTIONS_SOURCE_FILES})
 add_executable(serverSide serverMain.cpp ${SERVER_SOURCE_FILES})
-target_link_libraries(serverSide rcs_server rcs_common oc octbstack oc_logger)
+target_link_libraries(serverSide rcs_server rcs_common oc octbstack oc_logger pthread)
 
 set(CLIENT_SOURCE_FILES Constants.h
         Client.h
@@ -23,6 +23,6 @@ set(CLIENT_SOURCE_FILES Constants.h
         UnknownTypeResRepr.h
         )
 add_executable(clientSide clientMain.cpp ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
-target_link_libraries(clientSide rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp)
+target_link_libraries(clientSide rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp pthread)
 
 add_subdirectory(unittests)
