@@ -32,6 +32,8 @@ set(CLIENT_SOURCE_FILES
         UnknownTypeResRepr.h
         Scene.cpp
         Scene.h
+        Rule.cpp
+        Rule.h
         )
 add_executable(clientSide clientMain.cpp ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
 target_link_libraries(clientSide rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp)

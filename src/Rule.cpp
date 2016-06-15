@@ -3,3 +3,13 @@
 //
 
 #include "Rule.h"
+void Rule::registerAsListener(){
+    triggerResRepr->registerOnAttrChangeListener(this);
+};
+
+void Rule::onAttrChanged(){
+    triggerResRepr->callService(triggerServiceName);
+    if(triggerResRepr->getServiceReturnStorage() == value){
+        reactionResRepr->callService(reactionServiceName);
+    }
+};

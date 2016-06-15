@@ -17,16 +17,9 @@ struct Rule : OnAttrChangeListener{
     string reactionServiceName;
 
 
-    void registerAsListener(){
-        triggerResRepr->registerOnAttrChangeListener(this);
-    };
+    void registerAsListener();
 
-    void onAttrChanged(){
-        triggerResRepr->callService(triggerServiceName);
-        if(triggerResRepr->getServiceReturnStorage() == value){
-            reactionResRepr->callService(reactionServiceName);
-        }
-    };
+    void onAttrChanged();
 };
 
 

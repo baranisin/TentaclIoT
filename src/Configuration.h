@@ -37,6 +37,7 @@ public:
     static const string DISCOVERED_RESOURCES_KEY;
     static const string REGISTERED_RESOURCES_KEY;
     static const string RES_TO_REGISTER_KEY;
+    static const string RULES_KEY;
 
     static const string ABSOLUTE_URI_KEY;
     static const string TYPES_KEY;
@@ -52,12 +53,19 @@ public:
     static const string SERVICES_KEY;
     static const string SERVICE_NAME_KEY;
     static const string REQUIRE_ARGUMENT_KEY;
+    static const string TRIGGER_KEY;
+    static const string TRIGGER_SERVICE_KEY;
+    static const string TRIGGER_VALUE_KEY;
+    static const string REACTOR_KEY;
+    static const string REACTION_SERVICE_KEY;
+
 
     void writeOutput(
             map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
             map<string, ResourceRepresentation*> regResources
     );
-    vector< pair< vector<string>, string> > readInput();
+    vector< pair< vector<string>, string> > readRegistrationInput();
+    Json::Value readRulesInput();
 };
 
 

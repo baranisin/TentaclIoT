@@ -106,7 +106,7 @@ bool Client::hasResourceRegistered(const string &uri) {
 }
 
 void Client::loadConfiguration() {
-    for(pair<vector<string>, string> res : config->readInput()){
+    for(pair<vector<string>, string> res : config->readRegistrationInput()){
 
         registerResourceFromDiscovery(
                 res.first,
@@ -115,6 +115,7 @@ void Client::loadConfiguration() {
     }
 
     printRegisteredResources();
+    setRules(config->readRulesInput());
 
 }
 
@@ -123,6 +124,20 @@ void Client::printRegisteredResources() {
         std::cout << "URI: " << res.second->getAbsoluteUri() << std::endl;
     }
 }
+
+void Client::setRules(Json::Value json) {
+    for(Json::Value ruleJson : json){
+        Rule r;
+        r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
+        r.triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
+        r.value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
+        r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
+        r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
+        r.registerAsListener();
+    }
+}
+
+
 
 
 

@@ -1,5 +1,6 @@
 #include <thread>
 #include "Configuration.h"
+#include "Rule.h"
 
 const string Configuration::INPUT_FILE = "input.json";
 const string Configuration::OUTPUT_FILE = "output.json";
@@ -7,6 +8,7 @@ const string Configuration::OUTPUT_FILE = "output.json";
 const string Configuration::DISCOVERED_RESOURCES_KEY = "discovered_resources";
 const string Configuration::REGISTERED_RESOURCES_KEY = "registered_resources";
 const string Configuration::RES_TO_REGISTER_KEY = "resources_to_register";
+const string Configuration::RULES_KEY = "rules";
 
 const string Configuration::ABSOLUTE_URI_KEY = "absolute_uri";
 const string Configuration::TYPES_KEY = "types";
@@ -22,6 +24,11 @@ const string Configuration::SOURCE_SERVERS_URIS_KEY = "source_uris";
 const string Configuration::SERVICES_KEY  = "services";
 const string Configuration::SERVICE_NAME_KEY  = "service_name";
 const string Configuration::REQUIRE_ARGUMENT_KEY  = "require_argument";
+const string Configuration::TRIGGER_KEY = "trigger";
+const string Configuration::TRIGGER_SERVICE_KEY = "trigger_service";
+const string Configuration::TRIGGER_VALUE_KEY = "trigger_value";
+const string Configuration::REACTOR_KEY = "reactor";
+const string Configuration::REACTION_SERVICE_KEY = "reaction_service";
 
 
 void Configuration::writeOutput(
@@ -123,7 +130,7 @@ Json::Value Configuration::getRegisteredResJson(map<string, ResourceRepresentati
 
 
 
-vector<pair<vector<string>, string>> Configuration::readInput(){
+vector<pair<vector<string>, string>> Configuration::readRegistrationInput(){
     ifstream inputFile;
     Json::Reader reader;
     Json::Value inputJson;
@@ -150,6 +157,20 @@ vector<pair<vector<string>, string>> Configuration::readInput(){
         }
     }
 }
+
+Json::Value Configuration::readRulesInput() {
+    ifstream inputFile;
+    Json::Reader reader;
+    Json::Value inputJson;
+    inputFile.open(INPUT_FILE.c_str(), ios::in);
+    if(inputFile.is_open()){
+        if(reader.parse(inputFile, inputJson)){
+            return inputJson[RULES_KEY];
+        }
+    }
+}
+
+
 
 
 

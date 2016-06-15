@@ -50,6 +50,8 @@ public:
     void registerResourceFromDiscovery(const vector<string> &uris, const string &type = DEFAULT_STRING);
 
     bool hasResourceRegistered(const string &uri);
+
+    void setRules(Json::Value json);
 };
 
 #endif
