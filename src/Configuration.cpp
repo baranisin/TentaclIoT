@@ -2,8 +2,8 @@
 #include "Configuration.h"
 #include "Rule.h"
 
-const string Configuration::INPUT_FILE = "../files/input.json";
-const string Configuration::OUTPUT_FILE = "../files/output.json";
+const string Configuration::INPUT_FILE = "input.json";
+const string Configuration::OUTPUT_FILE = "output.json";
 
 const string Configuration::DISCOVERED_RESOURCES_KEY = "discovered_resources";
 const string Configuration::REGISTERED_RESOURCES_KEY = "registered_resources";
@@ -135,10 +135,9 @@ vector<pair<vector<string>, string>> Configuration::readRegistrationInput(){
     Json::Reader reader;
     Json::Value inputJson;
     inputFile.open(INPUT_FILE.c_str(), ios::in);
-
+    vector<pair<vector<string>, string>> resourcesToRegister{};
     if(inputFile.is_open()){
         if(reader.parse(inputFile, inputJson)){
-            vector<pair<vector<string>, string>> resourcesToRegister;
 
             for(Json::Value resourceJson : inputJson[RES_TO_REGISTER_KEY]){
                 pair<vector<string>, string> arguments;
@@ -153,9 +152,9 @@ vector<pair<vector<string>, string>> Configuration::readRegistrationInput(){
 
                 resourcesToRegister.push_back(arguments);
             }
-            return resourcesToRegister;
         }
     }
+    return resourcesToRegister;
 }
 
 Json::Value Configuration::readRulesInput() {
@@ -168,6 +167,7 @@ Json::Value Configuration::readRulesInput() {
             return inputJson[RULES_KEY];
         }
     }
+    return inputJson;
 }
 
 

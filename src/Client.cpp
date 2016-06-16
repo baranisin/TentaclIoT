@@ -106,16 +106,21 @@ bool Client::hasResourceRegistered(const string &uri) {
 }
 
 void Client::loadConfiguration() {
-    for(pair<vector<string>, string> res : config->readRegistrationInput()){
+    vector<pair<vector<string>, string>> resourcesToReg = config->readRegistrationInput();
+    if(!resourcesToReg.empty()){
+        for( pair<vector<string>, string> res : resourcesToReg){
 
-        registerResourceFromDiscovery(
-                res.first,
-                res.second
-        );
+            registerResourceFromDiscovery(
+                    res.first,
+                    res.second
+            );
+        }
     }
+
 
     printRegisteredResources();
     setRules(config->readRulesInput());
+
 
 }
 
@@ -126,14 +131,17 @@ void Client::printRegisteredResources() {
 }
 
 void Client::setRules(Json::Value json) {
-    for(Json::Value ruleJson : json){
-        Rule r;
-        r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
-        r.triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
-        r.value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
-        r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
-        r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
-        r.registerAsListener();
+    if(json.empty()){
+
+        for(Json::Value ruleJson : json){
+            Rule r;
+            r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
+            r.triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
+            r.value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
+            r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
+            r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
+            r.registerAsListener();
+        }
     }
 }
 
