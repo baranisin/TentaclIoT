@@ -2,8 +2,8 @@
 #include "Configuration.h"
 #include "Rule.h"
 
-const string Configuration::INPUT_FILE = "input.json";
-const string Configuration::OUTPUT_FILE = "output.json";
+const string Configuration::INPUT_FILE = "../files/input.json";
+const string Configuration::OUTPUT_FILE = "../files/output.json";
 
 const string Configuration::DISCOVERED_RESOURCES_KEY = "discovered_resources";
 const string Configuration::REGISTERED_RESOURCES_KEY = "registered_resources";

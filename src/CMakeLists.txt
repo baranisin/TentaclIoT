@@ -35,7 +35,10 @@ set(CLIENT_SOURCE_FILES
         Rule.cpp
         Rule.h
         )
-add_executable(clientSide clientMain.cpp ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
-target_link_libraries(clientSide rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp pthread)
+add_library(tentacliot ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
+target_link_libraries(tentacliot rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp pthread)
+
+add_executable(clientSide clientMain.cpp)
+target_link_libraries(clientSide tentacliot)
 
 add_subdirectory(unittests)
