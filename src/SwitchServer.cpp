@@ -40,7 +40,7 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 {
     std::cout << "Received a Set request from Client" << std::endl;
     printAttributes(attrs);
-    if (attrs[IS_ON_ATTR].get()){
+    if (attrs.at(IS_ON_ATTR).toString() == "true"){
         device.turnOn(1);
         device.turnOn(2);
         device.turnOn(3);
@@ -52,6 +52,8 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 void SwitchServer::test() {
     resource->setAttribute(IS_ON_ATTR, true);
 }
+
+
 
 
 
