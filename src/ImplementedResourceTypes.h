@@ -11,13 +11,16 @@
 #include "UnknownTypeResRepr.h"
 #include "Scene.h"
 #include "SceneServer.h"
+#include "SwitchServer.h"
+#include "SwitchResource.h"
 
 
 static vector<string> typesDatabase{
         FALSE_STRING_RETURN_VALUE,
         OIC_LIGHT_TYPE,
         OIC_TEMPERATURE_TYPE,
-        SCENE_TYPE
+        SCENE_TYPE,
+        OIC_SWITCH_TYPE
 };
 
 using namespace std;
@@ -28,7 +31,8 @@ public:
         ERROR,
         LIGHT_TYPE,
         TEMPERATURE_TYPE,
-        SCENE_TYPE
+        SCENE_TYPE,
+        SWITCH_TYPE
     };
     static int findInDatabase(const string &type){
         for (unsigned int i = 0; i < typesDatabase.size(); i++){
@@ -60,6 +64,8 @@ public:
                 return new LightResource(args);
             case SCENE_TYPE:
                 return new Scene(args) ;
+            case SWITCH_TYPE:
+                return new SwitchResource(args) ;
             default:
                 return new UnknownTypeResRepr(args);
         }
