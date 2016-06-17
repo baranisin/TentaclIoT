@@ -11,6 +11,7 @@
 #include <wiringPiI2C.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <SwitchServer.h>
 #include "I2CDevice.h"
 
 
@@ -103,11 +104,15 @@ int main(int argc, char *argv [])
 		uno3.setConfiguration();
 		uno3.PrintResources();
 	}
-	
-	uno3.turnOn(1);
-	uno3.turnOn(2);
-	uno3.turnOn(3);
-	uno3.turnOn(4);
+
+	SwitchServer uno3server = SwitchServer("uno3", uno3);
+	sleep(5);
+	uno3server.test();
+
+//	uno3.turnOn(1);
+//	uno3.turnOn(2);
+//	uno3.turnOn(3);
+//	uno3.turnOn(4);
 
 
 	uno2.readFromTempHumi(5);

@@ -17,7 +17,7 @@ static vector<string> typesDatabase{
         FALSE_STRING_RETURN_VALUE,
         OIC_LIGHT_TYPE,
         OIC_TEMPERATURE_TYPE,
-        OIC_SCENE_TYPE
+        SCENE_TYPE
 };
 
 using namespace std;

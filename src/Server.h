@@ -24,6 +24,8 @@ protected:
 
     static string nameValidation(const string &n);
 
+    static void printAttributes(const RCSResourceAttributes& attrs);
+
 public:
     string getName();
 

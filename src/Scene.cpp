@@ -9,7 +9,7 @@ Scene::Scene(ResourceArgumentsBundle args) {
 }
 
 Server *Scene::createVirtualServer() {
-    return ImplementedResourceTypes::createServerOfType(OIC_SCENE_TYPE, serverName);
+    return ImplementedResourceTypes::createServerOfType(SCENE_TYPE, serverName);
 }
 
 void Scene::onAttrSet(const RCSResourceAttributes &attrs, int eCode) {

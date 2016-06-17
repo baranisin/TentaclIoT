@@ -48,6 +48,7 @@ include_directories(
 		"${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/src"
 		${CMAKE_SOURCE_DIR}/src
 		${CMAKE_SOURCE_DIR}/lib
+		${CMAKE_SOURCE_DIR}/I2C_protocol
 )
 
 

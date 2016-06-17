@@ -110,6 +110,15 @@ string Server::getResourceURI() {
     return resource->getUri();
 }
 
+void Server::printAttributes(const RCSResourceAttributes& attrs)
+{
+    for(const auto& attr : attrs)
+    {
+        std::cout << "\tkey : " << attr.key() << "\n\tvalue : "
+        << attr.value().toString() << std::endl;
+    }
+}
+
 
 
 

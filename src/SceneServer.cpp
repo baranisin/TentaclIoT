@@ -18,7 +18,7 @@ void SceneServer::buildServer(const string &rUri, const string &resourceType) {
 
 SceneServer::SceneServer(const string &n) {
     name = Server::nameValidation(n);
-    initServer(SCENE_URI, OIC_SCENE_TYPE);
+    initServer(SCENE_URI, SCENE_TYPE);
     resource->setAttribute(STATE_ATTR, false);
 }
 
