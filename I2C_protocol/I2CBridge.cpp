@@ -107,8 +107,6 @@ int main(int argc, char *argv [])
 
 	SwitchServer uno3server = SwitchServer("uno3", uno3);
 	sleep(1);
-	uno3server.test();
-
 
 	std::mutex m;
 	std::unique_lock<std::mutex> lock(m);
