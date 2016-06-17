@@ -11,8 +11,11 @@ set(SERVER_SOURCE_FILES
         SceneServer.cpp
         SceneServer.h
         ${EXCEPTIONS_SOURCE_FILES})
-add_executable(serverSide serverMain.cpp ${SERVER_SOURCE_FILES})
-target_link_libraries(serverSide rcs_server rcs_common oc octbstack oc_logger pthread)
+add_library(tentacliotServer ${SERVER_SOURCE_FILES})
+target_link_libraries(tentacliotServer rcs_server rcs_common oc octbstack oc_logger pthread)
+
+add_executable(serverSide serverMain.cpp)
+target_link_libraries(serverSide tentacliot)
 
 set(CLIENT_SOURCE_FILES
         Constants.h
