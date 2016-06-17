@@ -58,3 +58,4 @@ link_directories(
 
 add_subdirectory(lib)
 add_subdirectory(src)
+add_subdirectory(I2C_protocol)
