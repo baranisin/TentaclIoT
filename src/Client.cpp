@@ -131,7 +131,7 @@ void Client::printRegisteredResources() {
 }
 
 void Client::setRules(Json::Value json) {
-    if(json.empty()){
+    if(!json.empty()){
 
         for(Json::Value ruleJson : json){
             Rule r;
