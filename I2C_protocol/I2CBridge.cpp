@@ -105,8 +105,12 @@ int main(int argc, char *argv [])
 		uno3.PrintResources();
 	}
 
+		uno3.turnOff(1);
+	uno3.turnOff(2);
+	uno3.turnOff(3);
+	uno3.turnOff(4);
+
 	SwitchServer uno3server = SwitchServer("uno3", uno3);
-	sleep(1);
 
 	std::mutex m;
 	std::unique_lock<std::mutex> lock(m);
