@@ -41,6 +41,7 @@ SwitchServer::SwitchServer(const string &n, I2CDevice d) {
     initServer(SWITCH_URI, OIC_SWITCH_TYPE);
     resource->setAttribute(IS_ON_ATTR, false);
     resource->addAttributeUpdatedListener(IS_ON_ATTR, attributeUpdatedListener);
+
 }
 
 RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttributes& attrs)
@@ -57,7 +58,7 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 }
 
 void SwitchServer::test() {
-    cout << " .... " << endl;
+    cout << " ..--.. " << resource->getAttribute(IS_ON_ATTR) << endl;
     resource->setAttribute(IS_ON_ATTR, true);
 }
 
