@@ -58,7 +58,7 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 }
 
 void SwitchServer::test() {
-    cout << " ..--.. " << resource->getAttribute(IS_ON_ATTR) << endl;
+    cout << " ..--.. " << (string) resource->getAttribute(IS_ON_ATTR) << endl;
     resource->setAttribute(IS_ON_ATTR, true);
 }
 
