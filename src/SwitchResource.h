@@ -23,7 +23,8 @@ class SwitchResource : public PhysicalResourceRepr{
     void onCacheUpdated(const RCSResourceAttributes& attrs);
 public:
     SwitchResource(ResourceArgumentsBundle args);
-    void callService(const string &service);
+
+    virtual void callService(const string &service);
     void turnOn();
     void turnOff();
     int getState();

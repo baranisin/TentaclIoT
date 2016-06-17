@@ -134,15 +134,13 @@ void Client::setRules(Json::Value json) {
     if(!json.empty()){
 
         for(Json::Value ruleJson : json){
-
-            registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()]->callService("turn_on");
-//            Rule r;
-//            r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
-//            r.triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
-//            r.value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
-//            r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
-//            r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
-//            r.registerAsListener();
+            Rule r;
+            r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
+            r.triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
+            r.value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
+            r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
+            r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
+            r.registerAsListener();
         }
     }
 }

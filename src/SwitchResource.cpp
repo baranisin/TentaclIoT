@@ -15,6 +15,7 @@ void SwitchResource::defineServices() {
 }
 
 void SwitchResource::onAttrSet(const RCSResourceAttributes &attrs, int eCode) {
+
     cout << "----SET---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
 }
 
@@ -53,15 +54,6 @@ void SwitchResource::turnOn() {
     RCSResourceAttributes attribute;
     attribute[SwitchServer::IS_ON_ATTR] = true;
     resource->setRemoteAttributes(attribute, setCallback);
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
-    cout << "ideme" << endl;
 }
 
 void SwitchResource::turnOff() {
