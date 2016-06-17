@@ -108,14 +108,21 @@ int main(int argc, char *argv [])
 	SwitchServer uno3server = SwitchServer("uno3", uno3);
 	sleep(1);
 	uno3server.test();
-	sleep(2);
+
+
+	std::mutex m;
+	std::unique_lock<std::mutex> lock(m);
+	condition_variable run_stopped;
+	run_stopped.wait(lock);
+
+
 //	uno3.turnOn(1);
 //	uno3.turnOn(2);
 //	uno3.turnOn(3);
 //	uno3.turnOn(4);
 
 
-	uno2.readFromTempHumi(5);
+//	uno2.readFromTempHumi(5);
 
 //	wiringPiSetupGpio();
 //	pinMode(17, INPUT);

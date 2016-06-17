@@ -20,6 +20,8 @@ void SwitchServer::buildServer(const string &rUri, const string &resourceType) {
     resource->setSetRequestHandlerPolicy(RCSResourceObject::SetRequestHandlerPolicy::NEVER);
 
     resource->setSetRequestHandler(setRequestHandler);
+    resource->setAttribute(IS_ON_ATTR, false);
+    resource->addAttributeUpdatedListener(IS_ON_ATTR, attributeUpdatedListener);
 }
 
 SwitchServer::SwitchServer(const string &n, I2CDevice d) {
@@ -39,8 +41,7 @@ SwitchServer::SwitchServer(const string &n, I2CDevice d) {
     );
 
     initServer(SWITCH_URI, OIC_SWITCH_TYPE);
-    resource->setAttribute(IS_ON_ATTR, false);
-    resource->addAttributeUpdatedListener(IS_ON_ATTR, attributeUpdatedListener);
+
 
 }
 
@@ -58,8 +59,9 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 }
 
 void SwitchServer::test() {
-    cout << " ..--.. " << (string) resource->getAttribute(IS_ON_ATTR) << endl;
+    cout << " ..--.. " << resource->getAttributeValue(IS_ON_ATTR).toString() << endl;
     resource->setAttribute(IS_ON_ATTR, true);
+    cout << " ..--.. " << resource->getAttributeValue(IS_ON_ATTR).toString() << endl;
 }
 
 void SwitchServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
