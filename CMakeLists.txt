@@ -8,29 +8,6 @@ set(CLION false)
 if (${CLION})
     set(IOTIVITY_PATH ${CMAKE_SOURCE_DIR}/../iotivity)
     set(IOTIVITY_LIBPATH ${IOTIVITY_PATH}/out/linux/x86_64/release)
-
-    include_directories(
-            "${IOTIVITY_PATH}/resource/include"
-            "${IOTIVITY_PATH}/resource/src"
-            "${IOTIVITY_PATH}/resource/csdk/stack/include"
-            "${IOTIVITY_PATH}/resource/c_common/ocrandom/include"
-            "${IOTIVITY_PATH}/resource/csdk/logger/include"
-            "${IOTIVITY_PATH}/resource/oc_logger/include"
-            "${IOTIVITY_PATH}/resource/c_common/"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/common/primitiveResource/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/common/primitiveResource/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceBroker/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceBroker/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceCache/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceCache/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceClient"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/src"
-            ${CMAKE_SOURCE_DIR}/src
-            ${CMAKE_SOURCE_DIR}/lib
-    )
 else()
     find_path(IOTIVITY_PATH iotivity.pc
     	PATHS
@@ -48,32 +25,30 @@ else()
 
     message(STATUS "IoTivity found at ${IOTIVITY_PATH}")
     message(STATUS "IoTivity libs at ${IOTIVITY_LIBPATH}")
-
-    include_directories(
-            "${IOTIVITY_PATH}/resource/include"
-            "${IOTIVITY_PATH}/resource/src"
-            "${IOTIVITY_PATH}/resource/csdk/stack/include"
-            "${IOTIVITY_PATH}/resource/c_common/ocrandom/include"
-            "${IOTIVITY_PATH}/resource/csdk/logger/include"
-            "${IOTIVITY_PATH}/resource/oc_logger/include"
-            "${IOTIVITY_PATH}/resource/c_common/"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/common/primitiveResource/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/common/primitiveResource/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceBroker/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceBroker/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceCache/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceCache/src"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceClient"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/include"
-            "${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/src"
-    		${CMAKE_SOURCE_DIR}/src
-    		${CMAKE_SOURCE_DIR}/lib
-    )
 endif ()
 
-
+include_directories(
+		"${IOTIVITY_PATH}/resource/include"
+		"${IOTIVITY_PATH}/resource/src"
+		"${IOTIVITY_PATH}/resource/csdk/stack/include"
+		"${IOTIVITY_PATH}/resource/c_common/ocrandom/include"
+		"${IOTIVITY_PATH}/resource/csdk/logger/include"
+		"${IOTIVITY_PATH}/resource/oc_logger/include"
+		"${IOTIVITY_PATH}/resource/c_common/"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/include"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/common/primitiveResource/include"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/common/primitiveResource/src"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceBroker/include"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceBroker/src"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceCache/include"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceCache/src"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/resourceClient"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/include"
+		"${IOTIVITY_PATH}/service/resource-encapsulation/src/serverBuilder/src"
+		${CMAKE_SOURCE_DIR}/src
+		${CMAKE_SOURCE_DIR}/lib
+)
 
 
 link_directories(
