@@ -39,6 +39,10 @@ set(CLIENT_SOURCE_FILES
         Scene.h
         Rule.cpp
         Rule.h
+        SwitchResource.h
+        SwitchResource.cpp
+        ../I2C_protocol/I2CDevice.cpp
+        ../I2C_protocol/I2CDevice.h
         )
 add_library(tentacliot ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
 target_link_libraries(tentacliot rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp pthread)

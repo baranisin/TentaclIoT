@@ -26,6 +26,7 @@ public:
     void callService(const string &service);
     void turnOn();
     void turnOff();
+    int getState();
 };
 
 

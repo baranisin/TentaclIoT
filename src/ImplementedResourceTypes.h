@@ -11,7 +11,6 @@
 #include "UnknownTypeResRepr.h"
 #include "Scene.h"
 #include "SceneServer.h"
-#include "SwitchServer.h"
 #include "SwitchResource.h"
 
 
