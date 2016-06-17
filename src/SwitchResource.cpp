@@ -72,6 +72,12 @@ int SwitchResource::getState() {
     return isOn;
 }
 
+SwitchResource::~SwitchResource() {
+    resource->stopCaching();
+}
+
+
+
 
 
 
