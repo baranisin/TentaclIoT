@@ -106,9 +106,9 @@ int main(int argc, char *argv [])
 	}
 
 	SwitchServer uno3server = SwitchServer("uno3", uno3);
-	sleep(5);
+	sleep(1);
 	uno3server.test();
-
+	sleep(2);
 //	uno3.turnOn(1);
 //	uno3.turnOn(2);
 //	uno3.turnOn(3);

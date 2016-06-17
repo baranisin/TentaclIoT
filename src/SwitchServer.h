@@ -13,7 +13,10 @@ class SwitchServer : public Server{
 private:
     I2CDevice device;
     RCSResourceObject::SetRequestHandler setRequestHandler;
+    RCSResourceObject::AttributeUpdatedListener attributeUpdatedListener;
+
     RCSSetResponse onSetRequest(const RCSRequest& req, RCSResourceAttributes& attrs);
+    void onAttrUpdated(const RCSResourceAttributes::Value& oldValue, const RCSResourceAttributes::Value& newValue);
 
     virtual void buildServer(const string &rUri, const string &resourceType);
 
