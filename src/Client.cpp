@@ -141,7 +141,7 @@ void Client::setRules(Json::Value json) {
             r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
             r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
             r.registerAsListener();
-            this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
+
         }
     }
 }
