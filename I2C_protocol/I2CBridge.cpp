@@ -126,9 +126,11 @@ int main(int argc, char *argv [])
 			case BOUT:
 				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
 				s->setI2CDevice(uno3,res.first);
-				cout << uno3.readData(res.first) << endl;
-				cout << (int) uno3.getResourceLogic(res.first) << endl;
-				s->setInitialState(uno3.readData(res.first) == 1);
+				bool isOn = uno3.readData(res.first) == 1;
+				if(uno3.getResourceLogic(res.first) == INVERTED){
+					isOn = uno3.readData(res.first) == 0;
+				}
+				s->setInitialState(isOn);
 				servers.push_back(s);
 				break;
 		}
