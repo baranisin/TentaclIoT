@@ -11,6 +11,6 @@ int main() {
     sleep(3);
     client.loadConfiguration();
     sleep(5);
-    client.outputActualConfiguration();
+//    client.outputActualConfiguration();
     run_stopped.wait(lock);
 }
