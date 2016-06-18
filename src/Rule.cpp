@@ -13,6 +13,7 @@ void Rule::registerAsListener(){
     cout << "ideme..." << endl;
     cout << "ideme..." << endl;
     triggerResRepr->registerOnAttrChangeListener(this);
+    onAttrChanged();
 };
 
 void Rule::onAttrChanged(){
