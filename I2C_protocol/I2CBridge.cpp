@@ -123,7 +123,7 @@ int main(int argc, char *argv [])
 	vector<Server*> servers;
 	string name = "uno3";
 
-	for (auto res : resources) {
+	for (pair<uint8_t, Resource> res : resources) {
 		switch (uno3.getResourceType(res.first)){
 			case BOUT:
 				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);

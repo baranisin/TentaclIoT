@@ -24,7 +24,9 @@ void SwitchResource::onAttrGet(const RCSResourceAttributes &attrs, int eCode) {
 }
 
 void SwitchResource::onCacheUpdated(const RCSResourceAttributes &attrs) {
+
     cout << "----UPDATED---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
+    cout << "----UPDATED---- Resource: " << getAbsoluteUri() << "-----------" << endl;
     for(OnAttrChangeListener* listener : listeners){
         listener->onAttrChanged();
     }
