@@ -114,16 +114,15 @@ int main(int argc, char *argv [])
 		uno3.PrintResources();
 	}
 
-	uno3.turnOff(1);
-	uno3.turnOff(2);
-	uno3.turnOff(3);
-	uno3.turnOff(4);
+
+
 
 	map<uint8_t, Resource> resources = uno3.getResources();
 	vector<Server*> servers;
 	string name = "uno3";
 
 	for (pair<uint8_t, Resource> res : resources) {
+		uno3.turnOff(res.first);
 		switch (uno3.getResourceType(res.first)){
 			case BOUT:
 				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
