@@ -70,10 +70,10 @@ void SwitchResource::turnOff() {
 }
 
 SwitchResource::SwitchResource(ResourceArgumentsBundle args) {
+    isOn = false;
     init(args.resources.back());
     resource->getRemoteAttributes(getCallback);
     cout << "......."  << isOn << endl;
-    this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
 }
 
 int SwitchResource::getState() {
