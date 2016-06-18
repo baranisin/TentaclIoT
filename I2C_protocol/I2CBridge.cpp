@@ -122,13 +122,14 @@ int main(int argc, char *argv [])
 	string name = "uno3";
 
 	for (pair<uint8_t, Resource> res : resources) {
+		uno3.turnOff(res.first);
 		switch (uno3.getResourceType(res.first)){
 			case BOUT:
 				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
 				s->setI2CDevice(uno3,res.first);
 				bool isOn = uno3.readData(res.first) == 1;
 				if(uno3.getResourceLogic(res.first) == INVERTED){
-					isOn = uno3.readData(res.first) == 0;
+					isOn = !isOn;
 				}
 				s->setInitialState(isOn);
 				servers.push_back(s);
