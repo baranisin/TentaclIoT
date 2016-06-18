@@ -56,7 +56,6 @@ void SwitchResource::turnOn() {
     RCSResourceAttributes attribute;
     attribute[SwitchServer::IS_ON_ATTR] = true;
     resource->setRemoteAttributes(attribute, setCallback);
-    sleep(1);
 }
 
 void SwitchResource::turnOff() {
@@ -64,7 +63,6 @@ void SwitchResource::turnOff() {
     RCSResourceAttributes attribute;
     attribute[SwitchServer::IS_ON_ATTR] = false;
     resource->setRemoteAttributes(attribute, setCallback);
-    sleep(1);
 }
 
 SwitchResource::SwitchResource(ResourceArgumentsBundle args) {

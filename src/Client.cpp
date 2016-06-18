@@ -114,11 +114,13 @@ void Client::loadConfiguration() {
                     res.first,
                     res.second
             );
+            sleep(2);
         }
     }
 
 
     printRegisteredResources();
+    sleep(2);
     setRules(config->readRulesInput());
 
 
