@@ -122,7 +122,6 @@ int main(int argc, char *argv [])
 	string name = "uno3";
 
 	for (pair<uint8_t, Resource> res : resources) {
-		uno3.turnOff(res.first);
 		switch (uno3.getResourceType(res.first)){
 			case BOUT:
 				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
