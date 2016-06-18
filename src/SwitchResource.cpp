@@ -15,13 +15,13 @@ void SwitchResource::defineServices() {
 }
 
 void SwitchResource::onAttrSet(const RCSResourceAttributes &attrs, int eCode) {
-
     cout << "----SET---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
+    isOn = attrs.at(SwitchServer::IS_ON_ATTR).toString() == "true";
 }
 
 void SwitchResource::onAttrGet(const RCSResourceAttributes &attrs, int eCode) {
     cout << "----GET---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
-
+    isOn = attrs.at(SwitchServer::IS_ON_ATTR).toString() == "true";
 }
 
 void SwitchResource::onCacheUpdated(const RCSResourceAttributes &attrs) {
