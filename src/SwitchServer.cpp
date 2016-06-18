@@ -79,6 +79,12 @@ void SwitchServer::setI2CDevice(I2CDevice d, uint8_t id) {
     this->id = id;
 }
 
+void SwitchServer::setInitialState(bool isOn) {
+    resource->setAttribute(IS_ON_ATTR, isOn);
+}
+
+
+
 
 
 

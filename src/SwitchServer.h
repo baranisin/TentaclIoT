@@ -24,6 +24,7 @@ private:
 public:
     SwitchServer(const string &n);
     void setI2CDevice(I2CDevice d, uint8_t id);
+    void setInitialState(bool isOn);
 
     static const string SWITCH_URI;
     static const string IS_ON_ATTR;
