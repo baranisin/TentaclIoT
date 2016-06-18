@@ -114,15 +114,13 @@ void Client::loadConfiguration() {
                     res.first,
                     res.second
             );
-            sleep(2);
+            this_thread::sleep_for(chrono::milliseconds(100));
         }
     }
 
 
     printRegisteredResources();
-    sleep(2);
     setRules(config->readRulesInput());
-
 
 }
 
