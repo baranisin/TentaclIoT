@@ -127,7 +127,7 @@ int main(int argc, char *argv [])
 			case BOUT:
 				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
 				s->setI2CDevice(uno3,res.first);
-				cout << uno3.getResourceData(res.first) << endl;
+				cout << uno3.readData(res.first) << endl;
 				servers.push_back(s);
 				break;
 		}
