@@ -6,7 +6,7 @@ int main() {
     std::unique_lock<std::mutex> lock(m);
     condition_variable run_stopped;
 
-    LightServer *ls = new LightServer("svetlo");
+    LightServer *ls = new LightServer("svetlicko");
 
     run_stopped.wait(lock);
 }

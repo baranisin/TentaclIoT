@@ -7,6 +7,7 @@ void Rule::registerAsListener(){
     cout << "------------ Rule registered --------------" << endl;
 
     triggerResRepr->registerOnAttrChangeListener(this);
+
     onAttrChanged();
 };
 

@@ -57,7 +57,7 @@ void Client::startDiscovery(const vector<string> &types) {
         } else {
             discoveryThread = new DiscoveryThread(types);
         }
-        sleep(1);
+        this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
         discoveryThread->startDiscovering();
     }
 
@@ -114,7 +114,7 @@ void Client::loadConfiguration() {
                     res.first,
                     res.second
             );
-            this_thread::sleep_for(chrono::milliseconds(100));
+            this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
         }
     }
 
