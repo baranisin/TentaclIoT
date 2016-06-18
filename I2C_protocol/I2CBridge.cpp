@@ -132,7 +132,10 @@ int main(int argc, char *argv [])
 				break;
 		}
 	}
-
+	std::mutex m;
+	std::unique_lock<std::mutex> lock(m);
+	condition_variable run_stopped;
+	run_stopped.wait(lock);
 
 
 /*	uno3.turnOn(1);
