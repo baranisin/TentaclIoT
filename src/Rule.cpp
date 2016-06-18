@@ -16,4 +16,5 @@ void Rule::onAttrChanged(){
     if(triggerResRepr->getServiceReturnStorage() == value){
         reactionResRepr->callService(reactionServiceName);
     }
+    this_thread::sleep_for(chrono::milliseconds(100));
 };
