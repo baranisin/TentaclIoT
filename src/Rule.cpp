@@ -16,6 +16,7 @@ void Rule::onAttrChanged(){
     triggerResRepr->callService(triggerServiceName);
     this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
     if(triggerResRepr->getServiceReturnStorage() == value){
+        cout << "----------- Rule REACTION ----------------" << endl;
         reactionResRepr->callService(reactionServiceName);
         this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
     }
