@@ -85,9 +85,9 @@ void DiscoveryThread::stopDiscovering() {
 void DiscoveryThread::onResourceDiscovered(shared_ptr<RCSRemoteResourceObject> discoveredResource) {
 
     string resAbsoluteURI = discoveredResource->getAddress() + discoveredResource->getUri();
-    cout << "onResourceDiscovered callback :: " << endl;
-    cout << "resourceURI : " << resAbsoluteURI << endl;
-    cout << "hostAddress : " << discoveredResource->getAddress() << endl;
+//    cout << "onResourceDiscovered callback :: " << endl;
+//    cout << "resourceURI : " << resAbsoluteURI << endl;
+//    cout << "hostAddress : " << discoveredResource->getAddress() << endl;
 
     try {
         discoveredResources[resAbsoluteURI] = discoveredResource;
