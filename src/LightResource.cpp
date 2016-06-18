@@ -23,7 +23,10 @@ void LightResource::turnOn() {
 }
 
 int LightResource::getBrightness(){
-    waitForUpdate();
+    cout << resource->isCaching() << resource->isCachedAvailable() << endl;
+//    if(brightnessValue == stoi(resource->getCachedAttribute(LightServer::BRIGHTNESS_ATTR).toString())){
+//        waitForUpdate();
+//    }
     return brightnessValue;
 }
 
@@ -37,10 +40,6 @@ void LightResource::setBrightness(const int value) {
         brightnessValue = LightServer::MAX_BRIGHTNESS;
     }else{
        brightnessValue = value;
-    }
-
-    if(this->brightnessValue == brightnessValue){
-        return;
     }
 
     RCSResourceAttributes attribute;

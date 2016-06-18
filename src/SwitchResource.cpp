@@ -16,22 +16,19 @@ void SwitchResource::defineServices() {
 
 void SwitchResource::onAttrSet(const RCSResourceAttributes &attrs, int eCode) {
     cout << "----SET---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
-    isOn = attrs.at(SwitchServer::IS_ON_ATTR).toString() == "true";
 }
 
 void SwitchResource::onAttrGet(const RCSResourceAttributes &attrs, int eCode) {
     cout << "----GET---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
-    isOn = attrs.at(SwitchServer::IS_ON_ATTR).toString() == "true";
 }
 
 void SwitchResource::onCacheUpdated(const RCSResourceAttributes &attrs) {
-    isWaitingForUpdate = false;
     cout << "----UPDATED---- State: " << attrs.at(SwitchServer::IS_ON_ATTR).toString() << "-----------" << endl;
     isOn = attrs.at(SwitchServer::IS_ON_ATTR).toString() == "true";
     for(OnAttrChangeListener* listener : listeners){
         listener->onAttrChanged();
     }
-
+    isWaitingForUpdate = false;
 }
 
 void SwitchResource::callService(const string &service) {
@@ -77,7 +74,7 @@ SwitchResource::SwitchResource(ResourceArgumentsBundle args) {
 }
 
 int SwitchResource::getState() {
-    waitForUpdate();
+    sleep(2);
     return isOn;
 }
 

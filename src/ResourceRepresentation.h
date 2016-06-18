@@ -37,11 +37,10 @@ protected:
     bool isWaitingForUpdate = false;
 
     virtual void waitForUpdate() {
-        cout << "Start Service Waiting" << endl;
         while (isWaitingForUpdate) {
             this_thread::sleep_for(chrono::milliseconds(200));
+            cout << " ---- " <<endl;
         }
-        cout << "Stop Service Waiting" << endl;
     };
 
     void initCallbacks() {
@@ -115,6 +114,7 @@ public:
     };
 
     int getServiceReturnStorage(){
+        sleep(2);
         return serviceReturnStorage;
     };
 

@@ -11,6 +11,7 @@
 #include "ResourceRepresentation.h"
 #include "ImplementedResourceTypes.h"
 #include "ResourceRepresentationBuilder.h"
+#include "Rule.h"
 
 using namespace OC;
 using namespace OIC::Service;
@@ -52,6 +53,8 @@ public:
     bool hasResourceRegistered(const string &uri);
 
     void setRules(Json::Value json);
+
+    void initRulesActivation(vector<Rule> rules);
 };
 
 #endif

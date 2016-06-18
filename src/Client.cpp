@@ -114,13 +114,11 @@ void Client::loadConfiguration() {
                     res.first,
                     res.second
             );
-            this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
         }
     }
 
 
     printRegisteredResources();
-    sleep(1);
     setRules(config->readRulesInput());
 
 }
@@ -133,7 +131,7 @@ void Client::printRegisteredResources() {
 
 void Client::setRules(Json::Value json) {
     if(!json.empty()){
-
+        vector<Rule> rules{};
         for(Json::Value ruleJson : json){
             Rule r;
             r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
@@ -142,10 +140,21 @@ void Client::setRules(Json::Value json) {
             r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
             r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
             r.registerAsListener();
-
+            rules.push_back(r);
         }
+        sleep(1);
+        initRulesActivation(rules);
     }
 }
+
+void Client::initRulesActivation(vector<Rule> rules) {
+    for(Rule r : rules){
+        r.onAttrChanged();
+        sleep(1);
+    }
+}
+
+
 
 
 
