@@ -12,6 +12,7 @@
 #include "Scene.h"
 #include "SceneServer.h"
 #include "SwitchResource.h"
+#include "SwitchServer.h"
 
 
 static vector<string> typesDatabase{
@@ -49,6 +50,8 @@ public:
                 return new LightServer(name);
             case SCENE_TYPE:
                 return new SceneServer(name);
+            case SWITCH_TYPE:
+                return new SwitchServer(name);
             case ERROR:
                 throw UnknownTypeServerException();
             default:

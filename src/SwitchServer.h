@@ -12,6 +12,7 @@
 class SwitchServer : public Server{
 private:
     I2CDevice device;
+    uint8_t id;
     RCSResourceObject::SetRequestHandler setRequestHandler;
     RCSResourceObject::AttributeUpdatedListener attributeUpdatedListener;
 
@@ -21,9 +22,8 @@ private:
     virtual void buildServer(const string &rUri, const string &resourceType);
 
 public:
-    SwitchServer(const string &n, I2CDevice);
-
-    void test();
+    SwitchServer(const string &n);
+    void setI2CDevice(I2CDevice d, uint8_t id);
 
     static const string SWITCH_URI;
     static const string IS_ON_ATTR;

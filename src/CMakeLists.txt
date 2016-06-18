@@ -25,6 +25,7 @@ set(CLIENT_SOURCE_FILES
         Client.cpp
         DiscoveryThread.cpp
         DiscoveryThread.h
+        ImplementedResourceTypes.h
         ${EXCEPTIONS_SOURCE_FILES}
         ResourceRepresentation.h
         ResourceRepresentationBuilder.cpp

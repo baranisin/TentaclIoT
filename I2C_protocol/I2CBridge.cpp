@@ -11,7 +11,7 @@
 #include <wiringPiI2C.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <SwitchServer.h>
+#include <ImplementedResourceTypes.h>
 #include "I2CDevice.h"
 
 
@@ -33,7 +33,7 @@ void interrupt_handler()
 int main(int argc, char *argv [])
 {
 	//UNO1
-	if (!uno1.isConfigured())
+	if (uno1.isConfigured())
 	{
 		uno1.getConfiguration();
 		uno1.PrintResources();
@@ -53,6 +53,15 @@ int main(int argc, char *argv [])
 		uno1.PrintResources();
 	}
 
+	map<uint8_t, Resource> pom;
+	pom = uno1.getResources();
+	int pocet = uno1.numberOfResources();
+	u_int8_t type = uno1.getResourceType(1);
+	u_int8_t logic = uno1.getResourceLogic(1);
+	u_int8_t pin = uno1.getResourcePin(1);
+	string data = uno1.getResourceData(1);
+	
+	Resource res = uno1.getResource(1);
 	
 	// UNO2
 	if (uno2.isConfigured())
@@ -105,35 +114,43 @@ int main(int argc, char *argv [])
 		uno3.PrintResources();
 	}
 
-		uno3.turnOff(1);
+	uno3.turnOff(1);
 	uno3.turnOff(2);
 	uno3.turnOff(3);
 	uno3.turnOff(4);
 
-	SwitchServer uno3server = SwitchServer("uno3", uno3);
+	map<uint8_t, Resource> resources = uno3.getResources();
+	vector<Server*> servers;
+	string name = "uno3";
 
-	std::mutex m;
-	std::unique_lock<std::mutex> lock(m);
-	condition_variable run_stopped;
-	run_stopped.wait(lock);
+	for (auto res : resources) {
+		switch (uno3.getResourceType(res.first)){
+			case BOUT:
+				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
+				s->setI2CDevice(uno3,res.first);
+				servers.push_back(s);
+				break;
+		}
+	}
 
 
-//	uno3.turnOn(1);
-//	uno3.turnOn(2);
-//	uno3.turnOn(3);
-//	uno3.turnOn(4);
+
+/*	uno3.turnOn(1);
+	uno3.turnOn(2);
+	uno3.turnOn(3);
+	uno3.turnOn(4);
 
 
-//	uno2.readFromTempHumi(5);
+	uno2.readFromTempHumi(5);
 
-//	wiringPiSetupGpio();
-//	pinMode(17, INPUT);
-//	wiringPiISR(17, INT_EDGE_RISING, &interrupt_handler);
-//
-//	while (true)
-//	{
-//		sleep(5);
-//	}
-////
+	wiringPiSetupGpio();
+	pinMode(17, INPUT);
+	wiringPiISR(17, INT_EDGE_RISING, &interrupt_handler);
+	
+	while (true)
+	{	
+		sleep(5);
+	}*/
+//	
 	return 0;
 }

@@ -782,7 +782,41 @@ void I2CDevice::eventHandler()
 	
 }
 
+int I2CDevice::numberOfResources()
+{
+	return this->Resources.size();
+}
 
+// Getovanie Resourcov
+map<uint8_t, Resource> I2CDevice::getResources()
+{
+	return this->Resources;
+} 
 
+Resource  I2CDevice::getResource(uint8_t ResourceNumber)
+{
+	return this->Resources[ResourceNumber];	
+}
+
+uint8_t I2CDevice::getResourceType(uint8_t ResourceNumber)
+{
+	return this->Resources[ResourceNumber].type;
+}
+
+uint8_t I2CDevice::getResourceLogic(uint8_t ResourceNumber)
+{
+	return this->Resources[ResourceNumber].logic;
+}
+
+uint8_t I2CDevice::getResourcePin(uint8_t ResourceNumber)
+{
+	return this->Resources[ResourceNumber].pin;
+}
+
+string I2CDevice::getResourceData(uint8_t ResourceNumber)
+{
+	string result((char *)this->Resources[ResourceNumber].data); 
+	return result;
+}
 
 

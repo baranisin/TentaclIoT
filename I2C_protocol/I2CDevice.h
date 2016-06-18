@@ -172,6 +172,13 @@ public:
 	
 	void eventHandler();
 	
+	int numberOfResources();
+	map<uint8_t, Resource> getResources();
+	Resource getResource(uint8_t ResourceNumber);
+	uint8_t getResourceType(uint8_t ResourceNumber);
+	uint8_t getResourceLogic(uint8_t ResourceNumber);
+	uint8_t getResourcePin(uint8_t ResourceNumber);
+	string getResourceData(uint8_t ResourceNumber);
 	
 	~I2CDevice();
 };

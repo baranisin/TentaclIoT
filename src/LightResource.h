@@ -10,12 +10,12 @@
 class LightResource : public PhysicalResourceRepr{
     int brightnessValue;
     void defineServices();
-    enum servicesIds{
+    enum{
         NOT_FOUND = -1,
         TURN_ON,
         TURN_OFF,
-        RAISE,
-        LOW,
+        INCREASE,
+        DECREASE,
         GET,
         SET,
     };

@@ -115,10 +115,10 @@ void LightResource::callService(const string &service) {
         case TURN_OFF:
             turnOff();
             break;
-        case RAISE:
+        case INCREASE:
             raiseBrightness();
             break;
-        case LOW:
+        case DECREASE:
             lowBrightness();
             break;
         case GET:

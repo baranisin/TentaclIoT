@@ -11,7 +11,7 @@
 
 class SwitchResource : public PhysicalResourceRepr{
     bool isOn;
-    enum servicesIds{
+    enum {
         NOT_FOUND = -1,
         TURN_ON,
         TURN_OFF,

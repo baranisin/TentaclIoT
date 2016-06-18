@@ -24,9 +24,9 @@ void SwitchServer::buildServer(const string &rUri, const string &resourceType) {
     resource->addAttributeUpdatedListener(IS_ON_ATTR, attributeUpdatedListener);
 }
 
-SwitchServer::SwitchServer(const string &n, I2CDevice d) {
+SwitchServer::SwitchServer(const string &n) {
     name = Server::nameValidation(n);
-    device = d;
+
     setRequestHandler = bind(
             &SwitchServer::onSetRequest,
             this,
@@ -41,39 +41,45 @@ SwitchServer::SwitchServer(const string &n, I2CDevice d) {
     );
 
     initServer(SWITCH_URI, OIC_SWITCH_TYPE);
-
-
 }
 
 RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttributes& attrs)
 {
     std::cout << "Received a Set request from Client" << std::endl;
     printAttributes(attrs);
-    if (attrs.at(IS_ON_ATTR).toString() == "true"){
-        device.turnOn(1);
-        device.turnOn(2);
-        device.turnOn(3);
-        device.turnOn(4);
+    if(device.isConfigured() && id){
+        if (attrs.at(IS_ON_ATTR).toString() == "true"){
+            device.turnOn(id);
+        }else{
+            device.turnOff(id);
+        }
+    }else{
+        //TODO: Throw exception
     }
-    return RCSSetResponse::defaultAction();
-}
 
-void SwitchServer::test() {
-    cout << " ..--.. " << resource->getAttributeValue(IS_ON_ATTR).toString() << endl;
-    resource->setAttribute(IS_ON_ATTR, true);
-    cout << " ..--.. " << resource->getAttributeValue(IS_ON_ATTR).toString() << endl;
+    return RCSSetResponse::defaultAction();
 }
 
 void SwitchServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
                                  const RCSResourceAttributes::Value &newValue) {
-    cout << oldValue.toString() << " .... " << newValue.toString() << endl;
-    if (newValue.toString() == "true"){
-        device.turnOn(1);
-        device.turnOn(2);
-        device.turnOn(3);
-        device.turnOn(4);
+    cout << oldValue.toString() << " ---> " << newValue.toString() << endl;
+    if(device.isConfigured() && id) {
+        if (newValue.toString() == "true") {
+            device.turnOn(id);
+        } else {
+            device.turnOff(id);
+        }
+    }else{
+        //TODO: Throw exception
     }
 }
+
+void SwitchServer::setI2CDevice(I2CDevice d, uint8_t id) {
+    device = d;
+    this->id = id;
+}
+
+
 
 
 
