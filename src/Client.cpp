@@ -120,6 +120,7 @@ void Client::loadConfiguration() {
 
 
     printRegisteredResources();
+    sleep(1);
     setRules(config->readRulesInput());
 
 }
