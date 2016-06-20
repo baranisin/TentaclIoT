@@ -107,7 +107,7 @@ void Client::loadConfiguration() {
             );
         }
     }
-
+    sleep(1);
     printRegisteredResources();
     setRules(config.readRulesInput());
 
@@ -143,6 +143,7 @@ void Client::initRulesActivation() {
     if(!rules.empty()){
         for(Rule* r : rules){
             r->onAttrChanged();
+            sleep(1);
         }
     }
 
