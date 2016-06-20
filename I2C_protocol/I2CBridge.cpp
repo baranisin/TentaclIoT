@@ -42,8 +42,8 @@ int main(int argc, char *argv [])
 	else
 	{
 		uno1.addResource(1, BOUT, 2, "LEDB");			// Blue LED
-		uno1.addResource(2, BINP, 3, "LAST");			// Laser Tranceiver
-		uno1.addResource(3, BINP, 4, "LAST");			// Laser Receiver
+		uno1.addResource(2, BINP, 3, "LST1");			// Laser Tranceiver
+		uno1.addResource(3, BINP, 4, "LST2");			// Laser Receiver
 		uno1.addResource(4, TEMPnHUMI, 6, "TEMP");		// Temperature Sensor
 		uno1.addResource(5, BINP, 7, "SND1");			// Sound Sensor
 		uno1.addResource(6, BINP, 8, "PIR");				// Pir Sensor
