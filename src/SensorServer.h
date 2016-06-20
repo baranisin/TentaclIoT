@@ -10,7 +10,7 @@
 #include <I2CDevice.h>
 #include "Server.h"
 
-class SensorServer : public Server, I2CEventListener{
+class SensorServer : public Server, public I2CEventListener{
     I2CDevice device;
     uint8_t id;
     RCSResourceObject::SetRequestHandler setRequestHandler;
