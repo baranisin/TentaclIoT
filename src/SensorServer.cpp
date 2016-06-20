@@ -38,6 +38,8 @@ void SensorServer::buildServer(const string &rUri, const string &resourceType) {
 
 void SensorServer::setI2CDevice(I2CDevice &d, uint8_t id) {
     device = d;
+    device.getConfiguration();
+    device.PrintResources();
     this->id = id;
     d.registerEventListener(this);
 }
