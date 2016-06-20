@@ -63,6 +63,8 @@ RCSSetResponse SensorServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 void SensorServer::onEvent(int newValue) {
     cout <<  "OnEvent listener: "  << newValue <<endl;
     resource->setAttribute(IS_ON_ATTR, (bool) newValue);
+    this_thread::sleep_for(chrono::milliseconds(500));
+    cout <<  "OnEvent listener get value: "  << resource->getAttribute(IS_ON_ATTR) <<endl;
 }
 
 
