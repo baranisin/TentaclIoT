@@ -90,7 +90,7 @@ private:
 	char *I2C_filename;		// Default  (char *)"/dev/i2c-1"
 	
 	map<uint8_t, Resource> Resources;
-	vector<I2CEventListener*> eventListeners;
+	map<int, vector<I2CEventListener*>> eventListeners;
 	
 	uint8_t c_BINP = 0;
 	uint8_t c_BOUT = 0;
@@ -183,8 +183,8 @@ public:
 	uint8_t getResourcePin(uint8_t ResourceNumber);
 	string getResourceData(uint8_t ResourceNumber);
 
-	void registerEventListener(I2CEventListener* listener);
-    void notifyListeners(int newValue);
+	void registerEventListener(uint8_t ResourceNumber, I2CEventListener* listener);
+    void notifyListeners(uint8_t ResourceNumber, int newValue);
 	
 	~I2CDevice();
 };

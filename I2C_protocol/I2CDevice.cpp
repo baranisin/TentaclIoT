@@ -762,7 +762,7 @@ void I2CDevice::eventHandler()
                         cout << char(Resources[ResNum].data[i]);
                     }
                     cout <<  "] change to " << int(ResValue) << endl;
-                    notifyListeners(int(ResValue));
+                    notifyListeners(ResNum, int(ResValue));
 					break;
 
 				default:
@@ -793,9 +793,9 @@ map<uint8_t, Resource> I2CDevice::getResources()
 	return this->Resources;
 }
 
-void I2CDevice::registerEventListener(I2CEventListener* listener) {
+void I2CDevice::registerEventListener(uint8_t ResourceNumber, I2CEventListener* listener) {
     cout << "Listener registered " << endl;
-	eventListeners.push_back(listener);
+	eventListeners.at(ResourceNumber).push_back(listener);
     cout << "Listeners size: " << eventListeners.size() << endl;
 }
 
@@ -828,9 +828,8 @@ string I2CDevice::getResourceData(uint8_t ResourceNumber)
 	return result;
 }
 
-void I2CDevice::notifyListeners(int newValue) {
-    cout << "Listeners size: " << eventListeners.size() << endl;
-    for(I2CEventListener* listener : eventListeners){
+void I2CDevice::notifyListeners(uint8_t ResourceNumber, int newValue) {
+    for(I2CEventListener* listener : eventListeners.at(ResourceNumber)){
         cout << "Notify listener ..." << endl;
         listener->onEvent(newValue);
     }

@@ -45,7 +45,7 @@ void SensorServer::buildServer(const string &rUri, const string &resourceType) {
 void SensorServer::setI2CDevice(I2CDevice *d, uint8_t id) {
     device = d;
     this->id = id;
-    device->registerEventListener(this);
+    device->registerEventListener(id, this);
 }
 
 void SensorServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
