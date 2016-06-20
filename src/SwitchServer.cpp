@@ -47,11 +47,11 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 {
     std::cout << "Received a Set request from Client" << std::endl;
     printAttributes(attrs);
-    if(device.isConfigured() && id){
+    if(device->isConfigured() && id){
         if (attrs.at(IS_ON_ATTR).toString() == "true"){
-            device.turnOn(id);
+            device->turnOn(id);
         }else{
-            device.turnOff(id);
+            device->turnOff(id);
         }
     }else{
         //TODO: Throw exception
@@ -63,18 +63,18 @@ RCSSetResponse SwitchServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 void SwitchServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
                                  const RCSResourceAttributes::Value &newValue) {
     cout << oldValue.toString() << " ---> " << newValue.toString() << endl;
-    if(device.isConfigured() && id) {
+    if(device->isConfigured() && id) {
         if (newValue.toString() == "true") {
-            device.turnOn(id);
+            device->turnOn(id);
         } else {
-            device.turnOff(id);
+            device->turnOff(id);
         }
     }else{
         //TODO: Throw exception
     }
 }
 
-void SwitchServer::setI2CDevice(I2CDevice d, uint8_t id) {
+void SwitchServer::setI2CDevice(I2CDevice *d, uint8_t id) {
     device = d;
     this->id = id;
 }

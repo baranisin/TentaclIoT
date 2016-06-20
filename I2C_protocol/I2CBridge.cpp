@@ -23,9 +23,10 @@ using namespace std;
 I2CDevice uno1 = I2CDevice("Arduino 1", 5, (char *)"/dev/i2c-1");
 I2CDevice uno2 = I2CDevice("Arduino 2", 6, (char *)"/dev/i2c-1");
 I2CDevice uno3 = I2CDevice("Arduino 3", 8, (char *)"/dev/i2c-1");
-
+vector<I2CDevice> devices{uno1, uno2, uno3};
 void interrupt_handler()
 {
+	uno1.eventHandler();
 	uno2.eventHandler();
 }
 
@@ -119,28 +120,27 @@ int main(int argc, char *argv [])
 	map<uint8_t, Resource> resources = uno2.getResources();
 	vector<Server*> servers;
 	string name = "uno2";
+	for (I2CDevice device : devices){
+		for (pair<uint8_t, Resource> res : resources) {
+			string n = name + string("/") + device.getResourceData(res.first);
+			switch (device.getResourceType(res.first)){
+				case BOUT: {
+					SwitchServer* sout = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
+					sout->setI2CDevice(&device,res.first);
+					servers.push_back(sout);
+					break;
+				}
+				case BINP:{
+					SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, n);
+					sin->setI2CDevice(&device, res.first);
+					servers.push_back(sin);
+					break;
+				}
 
-	for (pair<uint8_t, Resource> res : resources) {
-//		uno3.turnOff(res.first);
-		switch (uno2.getResourceType(res.first)){
-//			case BOUT:
-//				SwitchServer* sout = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
-//				sout->setI2CDevice(uno3,res.first);
-//				bool isOn = uno3.readData(res.first) == 1;
-//				if(uno3.getResourceLogic(res.first) == INVERTED){
-//					isOn = !isOn;
-//				}
-//				sout->setInitialState(isOn);
-//				servers.push_back(sout);
-//				break;
-			case BINP:
-				string n = name + string("/") + uno2.getResourceData(res.first);
-				SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, n);
-				sin->setI2CDevice(&uno2, res.first);
-				servers.push_back(sin);
-				break;
+			}
 		}
 	}
+
 
 	wiringPiSetupGpio();
 	pinMode(17, INPUT);
