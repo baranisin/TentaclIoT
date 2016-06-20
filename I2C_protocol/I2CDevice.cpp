@@ -758,11 +758,11 @@ void I2CDevice::eventHandler()
 					break;
 				case BINP:
 					cout  << "Device address [" << int(this->I2C_address) << "] Resource [" << int(ResNum) << " : ";
-					for (uint8_t i = 0; i <  strlen((char *)Resources[ResNum].data); i++)
-					{
-						cout << char(Resources[ResNum].data[i]);
-					} 
-					cout <<  "] change to " << int(ResValue) << endl;
+					for (uint8_t i = 0; i <  strlen((char *)Resources[ResNum].data); i++){
+                        cout << char(Resources[ResNum].data[i]);
+                    }
+                    cout <<  "] change to " << int(ResValue) << endl;
+                        notifyListeners(int(ResValue));
 					break;
 
 				default:
@@ -791,7 +791,14 @@ int I2CDevice::numberOfResources()
 map<uint8_t, Resource> I2CDevice::getResources()
 {
 	return this->Resources;
-} 
+}
+
+void I2CDevice::registerEventListener(I2CEventListener* listener) {
+	eventListeners.push_back(listener);
+}
+
+
+
 
 Resource  I2CDevice::getResource(uint8_t ResourceNumber)
 {
@@ -818,5 +825,13 @@ string I2CDevice::getResourceData(uint8_t ResourceNumber)
 	string result((char *)this->Resources[ResourceNumber].data); 
 	return result;
 }
+
+void I2CDevice::notifyListeners(int newValue) {
+    for(I2CEventListener* listener : eventListeners){
+        listener->onEvent(newValue);
+    }
+}
+
+
 
 

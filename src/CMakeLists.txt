@@ -12,6 +12,8 @@ set(SERVER_SOURCE_FILES
         SceneServer.h
         SwitchServer.cpp
         SwitchServer.h
+        SensorServer.cpp
+        SensorServer.h
         ${EXCEPTIONS_SOURCE_FILES})
 add_library(tentacliotServer ${SERVER_SOURCE_FILES})
 target_link_libraries(tentacliotServer rcs_server rcs_common oc octbstack oc_logger pthread)

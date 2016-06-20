@@ -10,6 +10,8 @@
 #include <linux/i2c-dev.h>		//Needed for I2C port
 #include <bitset>
 #include <map>
+#include <vector>
+#include "I2CEventListener.h"
 
 using namespace std;
 
@@ -88,6 +90,7 @@ private:
 	char *I2C_filename;		// Default  (char *)"/dev/i2c-1"
 	
 	map<uint8_t, Resource> Resources;
+	vector<I2CEventListener*> eventListeners;
 	
 	uint8_t c_BINP = 0;
 	uint8_t c_BOUT = 0;
@@ -179,6 +182,9 @@ public:
 	uint8_t getResourceLogic(uint8_t ResourceNumber);
 	uint8_t getResourcePin(uint8_t ResourceNumber);
 	string getResourceData(uint8_t ResourceNumber);
+
+	void registerEventListener(I2CEventListener* listener);
+    void notifyListeners(int newValue);
 	
 	~I2CDevice();
 };

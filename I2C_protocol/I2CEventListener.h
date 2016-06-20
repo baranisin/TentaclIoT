@@ -1,0 +1,7 @@
+#ifndef IOTIVITY_BAKALARKA_I2CEVENTLISTENER_H
+#define IOTIVITY_BAKALARKA_I2CEVENTLISTENER_H
+class I2CEventListener{
+public:
+    virtual void onEvent(int newValue) = 0;
+};
+#endif //IOTIVITY_BAKALARKA_I2CEVENTLISTENER_H

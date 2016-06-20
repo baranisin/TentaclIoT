@@ -13,6 +13,7 @@
 #include "SceneServer.h"
 #include "SwitchResource.h"
 #include "SwitchServer.h"
+#include "SensorServer.h"
 
 
 static vector<string> typesDatabase{
@@ -20,7 +21,8 @@ static vector<string> typesDatabase{
         OIC_LIGHT_TYPE,
         OIC_TEMPERATURE_TYPE,
         SCENE_TYPE,
-        OIC_SWITCH_TYPE
+        OIC_SWITCH_TYPE,
+        OIC_SENSOR_TYPE
 };
 
 using namespace std;
@@ -32,7 +34,8 @@ public:
         LIGHT_TYPE,
         TEMPERATURE_TYPE,
         SCENE_TYPE,
-        SWITCH_TYPE
+        SWITCH_TYPE,
+        SENSOR_TYPE
     };
     static int findInDatabase(const string &type){
         for (unsigned int i = 0; i < typesDatabase.size(); i++){
@@ -52,6 +55,8 @@ public:
                 return new SceneServer(name);
             case SWITCH_TYPE:
                 return new SwitchServer(name);
+            case SENSOR_TYPE:
+                return new SensorServer(name);
             case ERROR:
                 throw UnknownTypeServerException();
             default:

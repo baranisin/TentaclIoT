@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ImplementedResourceTypes.h>
+#include <SensorServer.h>
 #include "I2CDevice.h"
 
 
@@ -117,22 +118,28 @@ int main(int argc, char *argv [])
 
 
 
-	map<uint8_t, Resource> resources = uno3.getResources();
+	map<uint8_t, Resource> resources = uno2.getResources();
 	vector<Server*> servers;
-	string name = "uno3";
+	string name = "uno2";
 
 	for (pair<uint8_t, Resource> res : resources) {
 //		uno3.turnOff(res.first);
-		switch (uno3.getResourceType(res.first)){
-			case BOUT:
-				SwitchServer* s = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
-				s->setI2CDevice(uno3,res.first);
-				bool isOn = uno3.readData(res.first) == 1;
-				if(uno3.getResourceLogic(res.first) == INVERTED){
-					isOn = !isOn;
-				}
-				s->setInitialState(isOn);
-				servers.push_back(s);
+		switch (uno2.getResourceType(res.first)){
+//			case BOUT:
+//				SwitchServer* sout = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
+//				sout->setI2CDevice(uno3,res.first);
+//				bool isOn = uno3.readData(res.first) == 1;
+//				if(uno3.getResourceLogic(res.first) == INVERTED){
+//					isOn = !isOn;
+//				}
+//				sout->setInitialState(isOn);
+//				servers.push_back(sout);
+//				break;
+			case BINP:
+				cout << "ideme" << endl;
+				SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, name);
+				sin->setI2CDevice(uno2, res.first);
+				servers.push_back(sin);
 				break;
 		}
 	}

@@ -12,6 +12,7 @@ static const string FALSE_STRING_RETURN_VALUE = "FALSE";
 static const string OIC_LIGHT_TYPE = "oic.r.light";
 static const string OIC_TEMPERATURE_TYPE = "oic.r.temperaturesensor";
 static const string OIC_SWITCH_TYPE = "ocf.r.switch.binary";
+static const string OIC_SENSOR_TYPE = "oic.r.sensor";
 static const string SCENE_TYPE = "custom.scene";
 
 static const string VIRTUAL_INTERFACE = "oic.if.virtual.server";
