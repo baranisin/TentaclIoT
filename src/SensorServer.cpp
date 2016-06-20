@@ -61,9 +61,9 @@ RCSSetResponse SensorServer::onSetRequest(const RCSRequest& req, RCSResourceAttr
 }
 
 void SensorServer::onEvent(int newValue) {
-    cout <<  "OnEvent listener: "  << newValue <<endl;
+    cout <<  "OnEvent listener recieved value: "  << newValue <<endl;
     resource->setAttribute(IS_ON_ATTR, (bool) newValue);
-    cout <<  "OnEvent listener get value: "  << resource->getAttributeValue(IS_ON_ATTR).toString() <<endl;
+    cout <<  "Iotivity server attribute "  << IS_ON_ATTR << " : "<< resource->getAttributeValue(IS_ON_ATTR).toString() <<endl;
 }
 
 

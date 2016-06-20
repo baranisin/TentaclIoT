@@ -120,7 +120,6 @@ public:
 
     void registerOnAttrChangeListener(OnAttrChangeListener* listener){
         listeners.push_back(listener);
-        sleep(1);
     };
 };
 
