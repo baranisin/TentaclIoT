@@ -117,21 +117,24 @@ int main(int argc, char *argv [])
 
 
 
-	map<uint8_t, Resource> resources = uno2.getResources();
+
 	vector<Server*> servers;
-	string name = "uno2";
+	int unoId = 1;
 	for (I2CDevice device : devices){
+		map<uint8_t, Resource> resources = device.getResources();
 		for (pair<uint8_t, Resource> res : resources) {
-			string n = name + string("/") + device.getResourceData(res.first);
+			string name = string("uno") + to_string(unoId) + string("/") + device.getResourceData(res.first);
+			device.turnOff(res.first);
 			switch (device.getResourceType(res.first)){
 				case BOUT: {
+
 					SwitchServer* sout = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
 					sout->setI2CDevice(&device,res.first);
 					servers.push_back(sout);
 					break;
 				}
 				case BINP:{
-					SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, n);
+					SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, name);
 					sin->setI2CDevice(&device, res.first);
 					servers.push_back(sin);
 					break;
@@ -139,6 +142,7 @@ int main(int argc, char *argv [])
 
 			}
 		}
+		unoId++;
 	}
 
 
