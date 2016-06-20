@@ -45,7 +45,7 @@ int main(int argc, char *argv [])
 		uno1.addResource(2, BINP, 3, "LAST");			// Laser Tranceiver
 		uno1.addResource(3, BINP, 4, "LAST");			// Laser Receiver
 		uno1.addResource(4, TEMPnHUMI, 6, "TEMP");		// Temperature Sensor
-		uno1.addResource(5, BINP, 7, "SOUND");			// Sound Sensor
+		uno1.addResource(5, BINP, 7, "SND1");			// Sound Sensor
 		uno1.addResource(6, BINP, 8, "PIR");				// Pir Sensor
 		uno1.addResource(7, RQRES, 9, "RQ");				// Request output
 		uno1.addResource(8, AINP, 14);					// Sound Sensor
@@ -78,7 +78,7 @@ int main(int argc, char *argv [])
 		uno2.addResource(4,	 BINP, 2, "PIR" );				// PIR Sensor
 		uno2.addResource(5,	 BOUT, 7, "LEDR2" );			// Red LED
 		uno2.addResource(6,	 BINP, 8 , "LASRE" );			// Laser RECEIVER
-		uno2.addResource(7,	 BINP, 9 , "SOUND" );			// Sound Sensor
+		uno2.addResource(7,	 BINP, 9 , "SND2" );			// Sound Sensor
 		uno2.addResource(8, TEMPnHUMI, 11, "TEMP4" );		// Temperature Sensor
 		uno2.addResource(9, RQRES, 12, "RQ");				// Request output
 		
@@ -123,7 +123,7 @@ int main(int argc, char *argv [])
 	for (I2CDevice *device : devices){
 		map<uint8_t, Resource> resources = device->getResources();
 		for (pair<uint8_t, Resource> res : resources) {
-			string name = string("uno") + to_string(unoId) + string("/") + device->getResourceData(res.first);
+			string name = "uno" + to_string(unoId) + "/" + device->getResourceData(res.first);
 			switch (device->getResourceType(res.first)){
 				case BOUT: {
 					if(unoId == 3){
