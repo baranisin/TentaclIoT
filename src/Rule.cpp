@@ -12,11 +12,11 @@ void Rule::registerAsListener(){
 void Rule::onAttrChanged(){
     cout << "----------- Rule triggered ----------------" << endl;
     triggerResRepr->callService(triggerServiceName);
-    this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
+    this_thread::sleep_for(chrono::milliseconds(MAX_RANGE_TO_WAIT));
     cout << triggerResRepr->getServiceReturnStorage() << endl;
     if(triggerResRepr->getServiceReturnStorage() == value){
         cout << "----------- Rule REACTION ----------------" << endl;
         reactionResRepr->callService(reactionServiceName);
-        this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
+        this_thread::sleep_for(chrono::milliseconds(MAX_RANGE_TO_WAIT));
     }
 };
