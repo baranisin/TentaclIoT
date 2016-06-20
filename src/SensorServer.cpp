@@ -41,7 +41,7 @@ void SensorServer::setI2CDevice(I2CDevice &d, uint8_t id) {
     device.getConfiguration();
     device.PrintResources();
     this->id = id;
-    d.registerEventListener(this);
+    device.registerEventListener(this);
 }
 
 void SensorServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
@@ -52,6 +52,7 @@ void SensorServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
 void SensorServer::onEvent(int newValue) {
     cout <<  "OnEvent listener: "  << newValue <<endl;
     resource->setAttribute(IS_ON_ATTR, (bool) newValue);
+    sleep(1);
 
 }
 
