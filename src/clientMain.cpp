@@ -7,10 +7,10 @@ int main() {
     condition_variable run_stopped;
 
     Client client = Client();
+    sleep(1);
     client.startDiscovery();
     sleep(3);
     client.loadConfiguration();
-    sleep(5);
 //    client.outputActualConfiguration();
     run_stopped.wait(lock);
 }

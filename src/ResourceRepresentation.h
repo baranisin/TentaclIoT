@@ -114,7 +114,6 @@ public:
     };
 
     int getServiceReturnStorage(){
-        sleep(2);
         return serviceReturnStorage;
     };
 

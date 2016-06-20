@@ -76,7 +76,6 @@ public:
             default:
                 return new UnknownTypeResRepr(args);
         }
-
     };
 
 };

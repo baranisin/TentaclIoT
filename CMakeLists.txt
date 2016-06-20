@@ -6,7 +6,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CLION false)
 
 if (${CLION})
-    set(IOTIVITY_PATH ${CMAKE_SOURCE_DIR}/../iotivity)
+    set(IOTIVITY_PATH ${CMAKE_SOURCE_DIR}/../iotivity-1.1.0)
     set(IOTIVITY_LIBPATH ${IOTIVITY_PATH}/out/linux/x86_64/release)
 else()
     find_path(IOTIVITY_PATH iotivity.pc

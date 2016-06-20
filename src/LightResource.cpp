@@ -23,16 +23,21 @@ void LightResource::turnOn() {
 }
 
 int LightResource::getBrightness(){
-    cout << resource->isCaching() << resource->isCachedAvailable() << endl;
+    if(resource->isCaching() && resource->isCachedAvailable()){
+        brightnessValue = stoi(resource->getCachedAttribute(LightServer::BRIGHTNESS_ATTR).toString());
+    }else{
+        resource->getRemoteAttributes(getCallback);
+        sleep(1);
+    }
 //    if(brightnessValue == stoi(resource->getCachedAttribute(LightServer::BRIGHTNESS_ATTR).toString())){
 //        waitForUpdate();
 //    }
+
+    cout << brightnessValue << endl;
     return brightnessValue;
 }
 
 void LightResource::setBrightness(const int value) {
-    waitForUpdate();
-
     int brightnessValue = 0;
     if(value <= LightServer::ZERO_BRIGHTNESS){
         brightnessValue = LightServer::ZERO_BRIGHTNESS;
@@ -45,16 +50,20 @@ void LightResource::setBrightness(const int value) {
     RCSResourceAttributes attribute;
     attribute[LightServer::BRIGHTNESS_ATTR] = brightnessValue;
     resource->setRemoteAttributes(attribute, setCallback);
+    sleep(3);
 
-    isWaitingForUpdate = true;
 }
 
 void LightResource::onAttrSet(const RCSResourceAttributes& attrs, int eCode) {
     cout << "----SET---- Brightness: " << attrs.at(LightServer::BRIGHTNESS_ATTR).toString() << "-----------" << endl;
+    brightnessValue = stoi(attrs.at(LightServer::BRIGHTNESS_ATTR).toString());
+    isWaitingForUpdate = false;
 }
 
 void LightResource::onAttrGet(const RCSResourceAttributes &attrs, int eCode) {
     cout << "----GET---- Brightness: " << attrs.at(LightServer::BRIGHTNESS_ATTR).toString() << "-----------" << endl;
+    brightnessValue = stoi(attrs.at(LightServer::BRIGHTNESS_ATTR).toString());
+    isWaitingForUpdate = false;
 }
 
 void LightResource::raiseBrightness() {

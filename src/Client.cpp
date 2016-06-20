@@ -4,12 +4,15 @@
 Client::Client() {
     platformConfigure();
     registeredResources = map<string, ResourceRepresentation*>{};
-    config = new Configuration();
+    config = Configuration();
+    discoveryThread = new DiscoveryThread();
 }
 
 Client::~Client() {
     stopDiscovery();
     delete discoveryThread;
+    rules.clear();
+    registeredResources.clear();
 }
 
 void Client::platformConfigure() {
@@ -31,7 +34,7 @@ void Client::platformConfigure() {
 
 void Client::outputActualConfiguration()  {
     if(isDiscovering()){
-        config->writeOutput(discoveryThread->getDiscoveredResources(), registeredResources);
+        config.writeOutput(discoveryThread->getDiscoveredResources(), registeredResources);
 
         printActualDiscoveredResources();
     }
@@ -52,12 +55,6 @@ bool Client::hasResourceDiscovered(const string &uri) {
 
 void Client::startDiscovery(const vector<string> &types) {
     if(!isDiscovering()){
-        if(types == EMPTY_STRING_VECTOR){
-            discoveryThread = new DiscoveryThread();
-        } else {
-            discoveryThread = new DiscoveryThread(types);
-        }
-        this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
         discoveryThread->startDiscovering();
     }
 
@@ -70,9 +67,6 @@ void Client::stopDiscovery() {
 }
 
 bool Client::isDiscovering() {
-    if(discoveryThread == nullptr){
-        return false;
-    }
     return discoveryThread->isRunningDiscovery();
 }
 
@@ -82,9 +76,7 @@ void Client::registerResourceFromDiscovery(const vector<string> &uris, const str
             ResourceRepresentationBuilder builder = ResourceRepresentationBuilder(discoveryThread, type);
             for (const string &uri : uris) {
                 try {
-
                     RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
-                    string absURI = res->getAddress() + res->getUri();
                     builder.addResource(res);
 
                 }catch(NotInDiscoveredResException e){
@@ -106,10 +98,9 @@ bool Client::hasResourceRegistered(const string &uri) {
 }
 
 void Client::loadConfiguration() {
-    vector<pair<vector<string>, string>> resourcesToReg = config->readRegistrationInput();
+    vector<pair<vector<string>, string>> resourcesToReg = config.readRegistrationInput();
     if(!resourcesToReg.empty()){
         for( pair<vector<string>, string> res : resourcesToReg){
-
             registerResourceFromDiscovery(
                     res.first,
                     res.second
@@ -117,9 +108,8 @@ void Client::loadConfiguration() {
         }
     }
 
-
     printRegisteredResources();
-    setRules(config->readRulesInput());
+    setRules(config.readRulesInput());
 
 }
 
@@ -131,27 +121,31 @@ void Client::printRegisteredResources() {
 
 void Client::setRules(Json::Value json) {
     if(!json.empty()){
-        vector<Rule> rules{};
         for(Json::Value ruleJson : json){
-            Rule r;
-            r.triggerResRepr = registeredResources[ruleJson[Configuration::TRIGGER_KEY].asString()];
-            r.triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
-            r.value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
-            r.reactionResRepr = registeredResources[ruleJson[Configuration::REACTOR_KEY].asString()];
-            r.reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
-            r.registerAsListener();
-            rules.push_back(r);
+            try{
+                Rule* r = new Rule();
+                r->triggerResRepr = registeredResources.at(ruleJson[Configuration::TRIGGER_KEY].asString());
+                r->triggerServiceName = ruleJson[Configuration::TRIGGER_SERVICE_KEY].asString();
+                r->value = ruleJson[Configuration::TRIGGER_VALUE_KEY].asInt();
+                r->reactionResRepr = registeredResources.at(ruleJson[Configuration::REACTOR_KEY].asString());
+                r->reactionServiceName = ruleJson[Configuration::REACTION_SERVICE_KEY].asString();
+                r->registerAsListener();
+                rules.push_back(r);
+            } catch (out_of_range e){
+                std::cout <<  "Rule: adress not in " << e.what() << std::endl;
+            }
         }
-        sleep(1);
-        initRulesActivation(rules);
+        initRulesActivation();
     }
 }
 
-void Client::initRulesActivation(vector<Rule> rules) {
-    for(Rule r : rules){
-        r.onAttrChanged();
-        sleep(1);
+void Client::initRulesActivation() {
+    if(!rules.empty()){
+        for(Rule* r : rules){
+            r->onAttrChanged();
+        }
     }
+
 }
 
 

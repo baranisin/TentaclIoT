@@ -23,9 +23,10 @@ using namespace std;
 
 class Client {
 private:
-    DiscoveryThread* discoveryThread = nullptr;
+    DiscoveryThread* discoveryThread;
     map<string, ResourceRepresentation*> registeredResources;
-    Configuration *config;
+    vector<Rule*> rules;
+    Configuration config;
     void platformConfigure();
 
 public:
@@ -54,7 +55,7 @@ public:
 
     void setRules(Json::Value json);
 
-    void initRulesActivation(vector<Rule> rules);
+    void initRulesActivation();
 };
 
 #endif
