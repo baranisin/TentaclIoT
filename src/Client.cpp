@@ -105,9 +105,9 @@ void Client::loadConfiguration() {
                     res.first,
                     res.second
             );
+            this_thread::sleep_for(chrono::milliseconds(MIN_RANGE_TO_WAIT));
         }
     }
-    sleep(1);
     printRegisteredResources();
     setRules(config.readRulesInput());
 
@@ -143,7 +143,6 @@ void Client::initRulesActivation() {
     if(!rules.empty()){
         for(Rule* r : rules){
             r->onAttrChanged();
-            sleep(1);
         }
     }
 
