@@ -126,16 +126,15 @@ int main(int argc, char *argv [])
 			string name = string("uno") + to_string(unoId) + string("/") + device->getResourceData(res.first);
 			switch (device->getResourceType(res.first)){
 				case BOUT: {
-
+					if(unoId == 3){
+						device->turnOff(res.first);
+					}
 					SwitchServer* sout = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
 					sout->setI2CDevice(device,res.first);
 					servers.push_back(sout);
 					break;
 				}
 				case BINP:{
-					if(unoId > 1){
-						device->turnOff(res.first);
-					}
 					SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, name);
 					sin->setI2CDevice(device, res.first);
 					servers.push_back(sin);
