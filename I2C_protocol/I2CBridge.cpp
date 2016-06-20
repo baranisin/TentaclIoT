@@ -143,6 +143,11 @@ int main(int argc, char *argv [])
 				break;
 		}
 	}
+
+	wiringPiSetupGpio();
+	pinMode(17, INPUT);
+	wiringPiISR(17, INT_EDGE_RISING, &interrupt_handler);
+
 	std::mutex m;
 	std::unique_lock<std::mutex> lock(m);
 	condition_variable run_stopped;
