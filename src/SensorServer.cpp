@@ -36,7 +36,7 @@ void SensorServer::buildServer(const string &rUri, const string &resourceType) {
     resource->addAttributeUpdatedListener(IS_ON_ATTR, attributeUpdatedListener);
 }
 
-void SensorServer::setI2CDevice(I2CDevice d, uint8_t id) {
+void SensorServer::setI2CDevice(I2CDevice &d, uint8_t id) {
     device = d;
     this->id = id;
     device.registerEventListener(this);

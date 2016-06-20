@@ -26,9 +26,7 @@ I2CDevice uno3 = I2CDevice("Arduino 3", 8, (char *)"/dev/i2c-1");
 
 void interrupt_handler()
 {
-	uno1.eventHandler();
 	uno2.eventHandler();
-	
 }
 
 int main(int argc, char *argv [])

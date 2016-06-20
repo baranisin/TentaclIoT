@@ -22,7 +22,7 @@ class SensorServer : public Server, public I2CEventListener{
 
 public:
     SensorServer(const string &n);
-    void setI2CDevice(I2CDevice d, uint8_t id);
+    void setI2CDevice(I2CDevice &d, uint8_t id);
     virtual void onEvent(int newValue);
 
     static const string SENSOR_URI;
