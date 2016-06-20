@@ -796,7 +796,7 @@ map<uint8_t, Resource> I2CDevice::getResources()
 void I2CDevice::registerEventListener(uint8_t ResourceNumber, I2CEventListener* listener) {
     cout << "Listener registered " << endl;
     if(eventListeners[ResourceNumber].size() == 0){
-        eventListeners[ResourceNumber] = vector{};
+        eventListeners[ResourceNumber] = vector<I2CEventListener*>{};
     }
 	eventListeners[ResourceNumber].push_back(listener);
     cout << "Listeners size: " << eventListeners.size() << endl;
