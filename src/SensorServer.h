@@ -11,7 +11,7 @@
 #include "Server.h"
 
 class SensorServer : public Server, public I2CEventListener{
-    I2CDevice device;
+    I2CDevice *device;
     uint8_t id;
     RCSResourceObject::SetRequestHandler setRequestHandler;
     RCSResourceObject::AttributeUpdatedListener attributeUpdatedListener;
@@ -22,7 +22,7 @@ class SensorServer : public Server, public I2CEventListener{
 
 public:
     SensorServer(const string &n);
-    void setI2CDevice(I2CDevice &d, uint8_t id);
+    void setI2CDevice(I2CDevice *d, uint8_t id);
     virtual void onEvent(int newValue);
 
     static const string SENSOR_URI;
