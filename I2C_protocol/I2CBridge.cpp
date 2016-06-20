@@ -124,7 +124,6 @@ int main(int argc, char *argv [])
 		map<uint8_t, Resource> resources = device->getResources();
 		for (pair<uint8_t, Resource> res : resources) {
 			string name = string("uno") + to_string(unoId) + string("/") + device->getResourceData(res.first);
-			device->turnOff(res.first);
 			switch (device->getResourceType(res.first)){
 				case BOUT: {
 
@@ -134,6 +133,9 @@ int main(int argc, char *argv [])
 					break;
 				}
 				case BINP:{
+					if(unoId > 1){
+						device->turnOff(res.first);
+					}
 					SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, name);
 					sin->setI2CDevice(device, res.first);
 					servers.push_back(sin);
