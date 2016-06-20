@@ -23,7 +23,7 @@ using namespace std;
 I2CDevice uno1 = I2CDevice("Arduino 1", 5, (char *)"/dev/i2c-1");
 I2CDevice uno2 = I2CDevice("Arduino 2", 6, (char *)"/dev/i2c-1");
 I2CDevice uno3 = I2CDevice("Arduino 3", 8, (char *)"/dev/i2c-1");
-vector<I2CDevice> devices{uno1, uno2, uno3};
+vector<I2CDevice*> devices{&uno1, &uno2, &uno3};
 void interrupt_handler()
 {
 	uno1.eventHandler();
@@ -120,22 +120,22 @@ int main(int argc, char *argv [])
 
 	vector<Server*> servers;
 	int unoId = 1;
-	for (I2CDevice device : devices){
-		map<uint8_t, Resource> resources = device.getResources();
+	for (I2CDevice *device : devices){
+		map<uint8_t, Resource> resources = device->getResources();
 		for (pair<uint8_t, Resource> res : resources) {
-			string name = string("uno") + to_string(unoId) + string("/") + device.getResourceData(res.first);
-			device.turnOff(res.first);
-			switch (device.getResourceType(res.first)){
+			string name = string("uno") + to_string(unoId) + string("/") + device->getResourceData(res.first);
+			device->turnOff(res.first);
+			switch (device->getResourceType(res.first)){
 				case BOUT: {
 
 					SwitchServer* sout = (SwitchServer*) ImplementedResourceTypes::createServerOfType(OIC_SWITCH_TYPE, name);
-					sout->setI2CDevice(&device,res.first);
+					sout->setI2CDevice(device,res.first);
 					servers.push_back(sout);
 					break;
 				}
 				case BINP:{
 					SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, name);
-					sin->setI2CDevice(&device, res.first);
+					sin->setI2CDevice(device, res.first);
 					servers.push_back(sin);
 					break;
 				}
