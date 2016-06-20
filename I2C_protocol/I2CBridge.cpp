@@ -136,7 +136,6 @@ int main(int argc, char *argv [])
 //				servers.push_back(sout);
 //				break;
 			case BINP:
-				cout << "ideme" << endl;
 				SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, name);
 				sin->setI2CDevice(uno2, res.first);
 				servers.push_back(sin);
