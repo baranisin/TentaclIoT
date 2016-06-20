@@ -134,7 +134,7 @@ int main(int argc, char *argv [])
 //				servers.push_back(sout);
 //				break;
 			case BINP:
-				string n = name + uno2.getResourceData(res.first);
+				string n = name + string("/") + uno2.getResourceData(res.first);
 				SensorServer* sin = (SensorServer*) ImplementedResourceTypes::createServerOfType(OIC_SENSOR_TYPE, n);
 				sin->setI2CDevice(&uno2, res.first);
 				servers.push_back(sin);
