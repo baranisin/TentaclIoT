@@ -9,6 +9,12 @@ const string SensorServer::IS_ON_ATTR = "is_turned_on";
 
 SensorServer::SensorServer(const string &n) {
     name = Server::nameValidation(n);
+    setRequestHandler = bind(
+            &SensorServer::onSetRequest,
+            this,
+            placeholders::_1,
+            placeholders::_2
+    );
 
     attributeUpdatedListener = bind(
             &SensorServer::onAttrUpdated,
@@ -46,12 +52,17 @@ void SensorServer::onAttrUpdated(const RCSResourceAttributes::Value &oldValue,
                                  const RCSResourceAttributes::Value &newValue) {
     cout << oldValue.toString() << " ---> " << newValue.toString() << endl;
 }
+RCSSetResponse SensorServer::onSetRequest(const RCSRequest& req, RCSResourceAttributes& attrs)
+{
+    std::cout << "Received a Set request from Client" << std::endl;
+    printAttributes(attrs);
+
+    return RCSSetResponse::defaultAction();
+}
 
 void SensorServer::onEvent(int newValue) {
     cout <<  "OnEvent listener: "  << newValue <<endl;
     resource->setAttribute(IS_ON_ATTR, (bool) newValue);
-    sleep(1);
-
 }
 
 
