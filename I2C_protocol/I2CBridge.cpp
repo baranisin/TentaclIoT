@@ -32,7 +32,7 @@ void interrupt_handler()
 
 int main(int argc, char *argv [])
 {
-	//UNO1
+	/*//UNO1
 	if (uno1.isConfigured())
 	{
 		uno1.getConfiguration();
@@ -61,7 +61,7 @@ int main(int argc, char *argv [])
 	u_int8_t pin = uno1.getResourcePin(1);
 	string data = uno1.getResourceData(1);
 	
-	Resource res = uno1.getResource(1);
+	Resource res = uno1.getResource(1);*/
 	
 	// UNO2
 	if (uno2.isConfigured())
