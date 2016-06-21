@@ -23,7 +23,7 @@ using namespace std;
 I2CDevice uno1 = I2CDevice("Arduino 1", 5, (char *)"/dev/i2c-1");
 I2CDevice uno2 = I2CDevice("Arduino 2", 6, (char *)"/dev/i2c-1");
 I2CDevice uno3 = I2CDevice("Arduino 3", 8, (char *)"/dev/i2c-1");
-vector<I2CDevice*> devices{&uno1, &uno2, &uno3};
+vector<I2CDevice*> devices{&uno2, &uno3};
 void interrupt_handler()
 {
 	uno1.eventHandler();
