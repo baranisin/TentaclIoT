@@ -42,8 +42,10 @@ set(CLIENT_SOURCE_FILES
         Scene.h
         Rule.cpp
         Rule.h
-        SwitchResource.h
         SwitchResource.cpp
+        SwitchResource.h
+        SensorResource.cpp
+        SensorResource.h
         ../I2C_protocol/I2CDevice.cpp
         ../I2C_protocol/I2CDevice.h
         )

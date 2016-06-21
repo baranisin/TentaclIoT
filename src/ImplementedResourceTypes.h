@@ -14,6 +14,7 @@
 #include "SwitchResource.h"
 #include "SwitchServer.h"
 #include "SensorServer.h"
+#include "SensorResource.h"
 
 
 static vector<string> typesDatabase{
@@ -73,6 +74,8 @@ public:
                 return new Scene(args) ;
             case SWITCH_TYPE:
                 return new SwitchResource(args) ;
+            case SENSOR_TYPE:
+                return new SensorResource(args);
             default:
                 return new UnknownTypeResRepr(args);
         }

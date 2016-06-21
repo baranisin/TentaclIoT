@@ -71,11 +71,9 @@ SwitchResource::SwitchResource(ResourceArgumentsBundle args) {
     isOn = false;
     init(args.resources.back());
     resource->getRemoteAttributes(getCallback);
-    cout << "......."  << isOn << endl;
 }
 
 int SwitchResource::getState() {
-    sleep(2);
     return isOn;
 }
 
