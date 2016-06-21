@@ -88,7 +88,7 @@ int main(int argc, char *argv [])
 	}
 	
 	uno2.turnOn(2);
-	uno2.turnOn(5);
+//	uno2.turnOn(5);
 
 	//UNO3
 	if (uno3.isConfigured())
