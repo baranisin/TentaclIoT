@@ -23,16 +23,16 @@ using namespace std;
 I2CDevice uno1 = I2CDevice("Arduino 1", 5, (char *)"/dev/i2c-1");
 I2CDevice uno2 = I2CDevice("Arduino 2", 6, (char *)"/dev/i2c-1");
 I2CDevice uno3 = I2CDevice("Arduino 3", 8, (char *)"/dev/i2c-1");
-vector<I2CDevice*> devices{&uno2, &uno3};
+vector<I2CDevice*> devices{&uno1, &uno2, &uno3};
 void interrupt_handler()
 {
-//	uno1.eventHandler();
+	uno1.eventHandler();
 	uno2.eventHandler();
 }
 
 int main(int argc, char *argv [])
 {
-	/*//UNO1
+	//UNO1
 	if (uno1.isConfigured())
 	{
 		uno1.getConfiguration();
@@ -61,7 +61,7 @@ int main(int argc, char *argv [])
 	u_int8_t pin = uno1.getResourcePin(1);
 	string data = uno1.getResourceData(1);
 	
-	Resource res = uno1.getResource(1);*/
+	Resource res = uno1.getResource(1);
 	
 	// UNO2
 	if (uno2.isConfigured())
