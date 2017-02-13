@@ -8,6 +8,10 @@
 #include "DiscoveryThread.h"
 #include "Server.h"
 #include "Configuration.h"
+#include "ResourceRepresentation.h"
+#include "ImplementedResourceTypes.h"
+#include "ResourceRepresentationBuilder.h"
+#include "Rule.h"
 
 using namespace OC;
 using namespace OIC::Service;
@@ -19,9 +23,10 @@ using namespace std;
 
 class Client {
 private:
-    DiscoveryThread* discoveryThread = nullptr;
-    map<string, RCSRemoteResourceObject::Ptr> registeredResources;
-    Configuration *config;
+    DiscoveryThread* discoveryThread;
+    map<string, ResourceRepresentation*> registeredResources;
+    vector<Rule*> rules;
+    Configuration config;
     void platformConfigure();
 
 public:
@@ -34,16 +39,23 @@ public:
 
     bool isDiscovering();
 
-//    void outputActualConfiguration();
+    void outputActualConfiguration();
 
     void printActualDiscoveredResources();
 
+    void printRegisteredResources();
 
     bool hasResourceDiscovered(const string &uri);
 
-//    bool registerResources();
+    void loadConfiguration();
+
+    void registerResourceFromDiscovery(const vector<string> &uris, const string &type = DEFAULT_STRING);
 
     bool hasResourceRegistered(const string &uri);
+
+    void setRules(Json::Value json);
+
+    void initRulesActivation();
 };
 
 #endif

@@ -7,7 +7,6 @@ using namespace std;
 
 class LightServer : public Server {
 private:
-    int brightness = 0;
     virtual void buildServer(const string &rUri, const string &resourceType);
 
 public:
@@ -18,9 +17,6 @@ public:
     static const int ZERO_BRIGHTNESS;
     static const int MAX_BRIGHTNESS;
     static const int STAGE_OF_BRIGHTNESS;
-
-
-
 };
 
 #endif //IOTIVITY_BAKALARKA_LIGHTSERVER_H

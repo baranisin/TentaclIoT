@@ -2,27 +2,57 @@ project(iotivity)
 
 set(EXCEPTIONS_SOURCE_FILES exceptions/)
 
-set(SERVER_SOURCE_FILES Constants.h Server.cpp Server.h LightServer.cpp LightServer.h ${EXCEPTIONS_SOURCE_FILES})
-add_executable(serverSide serverMain.cpp ${SERVER_SOURCE_FILES})
-target_link_libraries(serverSide rcs_server rcs_common oc octbstack oc_logger)
+set(SERVER_SOURCE_FILES
+        Constants.h
+        Server.cpp
+        Server.h
+        LightServer.cpp
+        LightServer.h
+        SceneServer.cpp
+        SceneServer.h
+        SwitchServer.cpp
+        SwitchServer.h
+        SensorServer.cpp
+        SensorServer.h
+        ${EXCEPTIONS_SOURCE_FILES})
+add_library(tentacliotServer ${SERVER_SOURCE_FILES})
+target_link_libraries(tentacliotServer rcs_server rcs_common oc octbstack oc_logger pthread)
 
-set(CLIENT_SOURCE_FILES Constants.h
+add_executable(serverSide serverMain.cpp)
+target_link_libraries(serverSide tentacliot)
+
+set(CLIENT_SOURCE_FILES
+        Constants.h
         Client.h
         Client.cpp
         DiscoveryThread.cpp
         DiscoveryThread.h
+        ImplementedResourceTypes.h
         ${EXCEPTIONS_SOURCE_FILES}
         ResourceRepresentation.h
         ResourceRepresentationBuilder.cpp
         ResourceRepresentationBuilder.h
-#        Configuration.cpp
-#        Configuration.h
+        Configuration.cpp
+        Configuration.h
         LightResource.cpp
         LightResource.h
         UnknownTypeResRepr.cpp
         UnknownTypeResRepr.h
+        Scene.cpp
+        Scene.h
+        Rule.cpp
+        Rule.h
+        SwitchResource.cpp
+        SwitchResource.h
+        SensorResource.cpp
+        SensorResource.h
+        ../I2C_protocol/I2CDevice.cpp
+        ../I2C_protocol/I2CDevice.h
         )
-add_executable(clientSide clientMain.cpp ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
-target_link_libraries(clientSide rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp)
+add_library(tentacliot ${CLIENT_SOURCE_FILES} ${SERVER_SOURCE_FILES})
+target_link_libraries(tentacliot rcs_client rcs_server rcs_common oc octbstack oc_logger jsoncpp pthread)
+
+add_executable(clientSide clientMain.cpp)
+target_link_libraries(clientSide tentacliot)
 
 add_subdirectory(unittests)

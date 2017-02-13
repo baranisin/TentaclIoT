@@ -1,5 +1,6 @@
 #include <RCSRemoteResourceObject.h>
 #include "jsoncpp/json/json.h"
+#include "ResourceRepresentation.h"
 #include <iostream>
 #include <fstream>
 
@@ -9,21 +10,62 @@
 using namespace OC;
 using namespace OIC::Service;
 using namespace std;
+struct ConfigReturnArguments{
+    string name;
+    string uri;
+    string type;
+};
 
 class Configuration {
+    Json::Value receivedAttributes;
 
-    Json::Value getJsonFromMap(map<string, RCSRemoteResourceObject::Ptr> map);
-    Json::Value getJsonResource(string first, RCSRemoteResourceObject::Ptr second);
+
+    Json::Value getDiscoveredResJson(map<string, RCSRemoteResourceObject::Ptr> map);
+    Json::Value getJsonRemoteResource(string first, RCSRemoteResourceObject::Ptr second);
+    Json::Value getResTypesToJson(RCSRemoteResourceObject::Ptr resPtr);
+    Json::Value getResInterfacesToJson(RCSRemoteResourceObject::Ptr resPtr);
+    void onRemoteAttributesReceived(const RCSResourceAttributes& attributes, int);
+
+    Json::Value getRegisteredResJson(map<string, ResourceRepresentation*> map);
+    Json::Value getJsonResourceRepr(string first, ResourceRepresentation* second);
+
 
 public:
-//    Configuration();
-    const string INPUT_FILE = "input.json";
-    const string OUTPUT_FILE = "output.json";
+    static const string INPUT_FILE;
+    static const string OUTPUT_FILE;
+
+    static const string DISCOVERED_RESOURCES_KEY;
+    static const string REGISTERED_RESOURCES_KEY;
+    static const string RES_TO_REGISTER_KEY;
+    static const string RULES_KEY;
+
+    static const string ABSOLUTE_URI_KEY;
+    static const string TYPES_KEY;
+    static const string REPR_TYPE_KEY;
+    static const string INTERFACES_KEY;
+    static const string RELATIVE_URI_KEY;
+    static const string ADRESS_KEY;
+    static const string STATE_KEY;
+    static const string ATTRIBUTES_KEY;
+    static const string ID_KEY;
+    static const string IS_VIRTUAL_TYPE_KEY;
+    static const string SOURCE_SERVERS_URIS_KEY;
+    static const string SERVICES_KEY;
+    static const string SERVICE_NAME_KEY;
+    static const string REQUIRE_ARGUMENT_KEY;
+    static const string TRIGGER_KEY;
+    static const string TRIGGER_SERVICE_KEY;
+    static const string TRIGGER_VALUE_KEY;
+    static const string REACTOR_KEY;
+    static const string REACTION_SERVICE_KEY;
+
+
     void writeOutput(
-            map<string, RCSRemoteResourceObject::Ptr> regResources,
-            vector<pair<string, RCSRemoteResourceObject::Ptr>> discoveredResMap
+            map<string, RCSRemoteResourceObject::Ptr> discoveredResMap,
+            map<string, ResourceRepresentation*> regResources
     );
-    void readInput();
+    vector< pair< vector<string>, string> > readRegistrationInput();
+    Json::Value readRulesInput();
 };
 
 

@@ -1,0 +1,9 @@
+#ifndef IOTIVITY_BAKALARKA_ONATTRCHANGELISTENER_H
+#define IOTIVITY_BAKALARKA_ONATTRCHANGELISTENER_H
+
+class OnAttrChangeListener{
+public:
+    virtual void onAttrChanged() = 0;
+};
+
+#endif //IOTIVITY_BAKALARKA_ONATTRCHANGELISTENER_H

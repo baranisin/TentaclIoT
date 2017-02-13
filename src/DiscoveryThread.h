@@ -29,7 +29,7 @@ class DiscoveryThread {
     function<void(shared_ptr<RCSRemoteResourceObject>)> onResourceDiscoveredCallback;
     bool isDiscovering;
     bool threadStopped;
-    bool isWritten;
+    bool isLocked;
     map<string, RCSRemoteResourceObject::Ptr> discoveredResources;
 
     void discover();
@@ -59,7 +59,7 @@ public:
 
     bool hasDiscoveryType(const string &type);
 
-    vector<pair<string, RCSRemoteResourceObject::Ptr>> getDiscoveredResources();
+    map<string, RCSRemoteResourceObject::Ptr> getDiscoveredResources();
 
     bool hasResource(const string &uri);
 

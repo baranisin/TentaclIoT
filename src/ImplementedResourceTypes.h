@@ -1,3 +1,5 @@
+
+
 #ifndef IOTIVITY_BAKALARKA_IMPLEMENTEDRESOURCETYPES_H
 #define IOTIVITY_BAKALARKA_IMPLEMENTEDRESOURCETYPES_H
 
@@ -7,12 +9,21 @@
 #include "ResourceArgumentsBundle.h"
 #include "LightResource.h"
 #include "UnknownTypeResRepr.h"
+#include "Scene.h"
+#include "SceneServer.h"
+#include "SwitchResource.h"
+#include "SwitchServer.h"
+#include "SensorServer.h"
+#include "SensorResource.h"
 
 
 static vector<string> typesDatabase{
         FALSE_STRING_RETURN_VALUE,
         OIC_LIGHT_TYPE,
         OIC_TEMPERATURE_TYPE,
+        SCENE_TYPE,
+        OIC_SWITCH_TYPE,
+        OIC_SENSOR_TYPE
 };
 
 using namespace std;
@@ -23,6 +34,9 @@ public:
         ERROR,
         LIGHT_TYPE,
         TEMPERATURE_TYPE,
+        SCENE_TYPE,
+        SWITCH_TYPE,
+        SENSOR_TYPE
     };
     static int findInDatabase(const string &type){
         for (unsigned int i = 0; i < typesDatabase.size(); i++){
@@ -38,6 +52,12 @@ public:
         switch (typeValue){
             case LIGHT_TYPE:
                 return new LightServer(name);
+            case SCENE_TYPE:
+                return new SceneServer(name);
+            case SWITCH_TYPE:
+                return new SwitchServer(name);
+            case SENSOR_TYPE:
+                return new SensorServer(name);
             case ERROR:
                 throw UnknownTypeServerException();
             default:
@@ -50,10 +70,15 @@ public:
         switch (typeValue){
             case LIGHT_TYPE:
                 return new LightResource(args);
+            case SCENE_TYPE:
+                return new Scene(args) ;
+            case SWITCH_TYPE:
+                return new SwitchResource(args) ;
+            case SENSOR_TYPE:
+                return new SensorResource(args);
             default:
                 return new UnknownTypeResRepr(args);
         }
-
     };
 
 };

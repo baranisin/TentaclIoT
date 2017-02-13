@@ -15,7 +15,6 @@ public:
     ResourceRepresentationBuilder(DiscoveryThread *dt, const string &type);
     ResourceRepresentationBuilder &addResource(RCSRemoteResourceObject::Ptr resPtr);
     ResourceRepresentationBuilder &setName(const string &name);
-    ResourceRepresentationBuilder &setId(const unsigned int &id);
     ResourceRepresentation *build();
 };
 

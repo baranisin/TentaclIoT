@@ -19,9 +19,11 @@ DiscoveryThread::DiscoveryThread(const vector<string> &types) {
 DiscoveryThread::~DiscoveryThread() {
     runStarted.notify_all();
     stopDiscovering();
+    discoveredResources.clear();
 }
 
 void DiscoveryThread::init() {
+    discoveredResources = map<string, RCSRemoteResourceObject::Ptr>{};
     discoveryLoop = thread(&DiscoveryThread::discover, this);
     isDiscovering = false;
     threadStopped = false;
@@ -30,7 +32,7 @@ void DiscoveryThread::init() {
             this,
             placeholders::_1
     );
-    discoveredResources = map<string, RCSRemoteResourceObject::Ptr>{};
+
 }
 
 void DiscoveryThread::discover() {
@@ -38,10 +40,7 @@ void DiscoveryThread::discover() {
     runStarted.wait(lk);
 
     while (isDiscovering) {
-        if (discoveredResources != map<string, RCSRemoteResourceObject::Ptr>{}) {
-            discoveredResources = map<string, RCSRemoteResourceObject::Ptr>{};
-            isWritten = false;
-        }
+        isLocked = true;
         discoveryTask = nullptr;
         while (!discoveryTask) {
             try {
@@ -56,8 +55,9 @@ void DiscoveryThread::discover() {
                 cout << e.what() << endl;
             }
         }
-        isWritten = true;
-        sleep(SECONDS_TO_SLEEP_DISCOVERY);
+
+        isLocked = false;
+        sleep(1);
     }
 }
 
@@ -83,13 +83,13 @@ void DiscoveryThread::stopDiscovering() {
 }
 
 void DiscoveryThread::onResourceDiscovered(shared_ptr<RCSRemoteResourceObject> discoveredResource) {
-    cout << "onResourceDiscovered callback :: " << endl;
-    string resAbsoluteURI = discoveredResource->getAddress() + discoveredResource->getUri();
-    cout << "resourceURI : " << resAbsoluteURI << endl;
-    cout << "hostAddress : " << discoveredResource->getAddress() << endl;
 
+    string resAbsoluteURI = discoveredResource->getAddress() + discoveredResource->getUri();
     try {
-        discoveredResources[resAbsoluteURI] = discoveredResource;
+        auto search = discoveredResources.find(resAbsoluteURI);
+        if( search == discoveredResources.end()) {
+            discoveredResources[resAbsoluteURI] = discoveredResource;
+        }
     } catch (out_of_range e) {
         cout << e.what() << endl;
     }
@@ -104,13 +104,9 @@ void DiscoveryThread::printResourceList() {
     }
 }
 
-vector<pair<string, RCSRemoteResourceObject::Ptr>> DiscoveryThread::getDiscoveredResources(){
+map<string, RCSRemoteResourceObject::Ptr> DiscoveryThread::getDiscoveredResources(){
     waitForAccessToDiscoveredResMap();
-    vector<pair<string, RCSRemoteResourceObject::Ptr>> resources{};
-    for(const auto &res : discoveredResources){
-        resources.push_back(pair<string, RCSRemoteResourceObject::Ptr>{res.first, res.second});
-    }
-    return resources;
+    return discoveredResources;
 };
 
 
@@ -136,7 +132,7 @@ RCSRemoteResourceObject::Ptr DiscoveryThread::getResource(
     }
     waitForAccessToDiscoveredResMap();
     string key = findDiscoveredResource(uri);
-    RCSRemoteResourceObject::Ptr ret = discoveredResources[key];
+    RCSRemoteResourceObject::Ptr ret = discoveredResources.at(key);
 
     return ret;
 }
@@ -166,8 +162,6 @@ unsigned int DiscoveryThread::countDiscoveredResWithURI(const string &uri) {
 }
 
 
-
-
 string DiscoveryThread::findDiscoveredResource(const string &uri) {
     try {
 
@@ -190,7 +184,7 @@ void DiscoveryThread::waitForAccessToDiscoveredResMap() throw(NotDiscoveringExce
     if(!isDiscovering){
         throw NotDiscoveringException();
     }
-    while (!isWritten) {
+    while (isLocked) {
         waitRandomTimeInRange();
     }
 }

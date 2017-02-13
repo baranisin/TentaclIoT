@@ -13,6 +13,8 @@ class UnknownTypeResRepr : public PhysicalResourceRepr{
     void onAttrSet(const RCSResourceAttributes& attrs, int eCode);
     void onAttrGet(const RCSResourceAttributes& attrs, int eCode);
     void onCacheUpdated(const RCSResourceAttributes& attrs);
+    void defineServices();
+    void callService(const string&);
 
 public:
     UnknownTypeResRepr(ResourceArgumentsBundle args);

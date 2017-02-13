@@ -1,6 +1,5 @@
 #include <Client.h>
 #include <gtest/gtest.h>
-#include <LightServer.h>
 
 struct DiscoveringResourcesTestFixtures : testing::Test{
     const string LS_NAME = "svetielko";
@@ -11,7 +10,6 @@ struct DiscoveringResourcesTestFixtures : testing::Test{
     DiscoveringResourcesTestFixtures(){
         ls = new LightServer(LS_NAME);
         client = new Client();
-
     }
 
     ~DiscoveringResourcesTestFixtures(){
