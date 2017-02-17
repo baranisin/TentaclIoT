@@ -4,24 +4,36 @@ project(Iotivity_bakalarka)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(CLION false)
+set(VERSION_TYPE release)
 
 if (${CLION})
     set(IOTIVITY_PATH ${CMAKE_SOURCE_DIR}/../iotivity)
-    set(IOTIVITY_LIBPATH ${IOTIVITY_PATH}/out/linux/x86_64/release)
+    set(IOTIVITY_LIBPATH ${IOTIVITY_PATH}/out/linux/x86_64/${VERSION_TYPE})
+	set(IOTIVITY_WKSXMPPXEP_LIBPATH ${IOTIVITY_PATH}/extlibs/wksxmppxep/wks_xep0047)
+	set(IOTIVITY_STROPHE_LIBPATH /usr/local/lib)
 else()
     find_path(IOTIVITY_PATH iotivity.pc
     	PATHS
-    		 ${CMAKE_SOURCE_DIR}/../iotivity-1.1.0
-    		 ${CMAKE_SOURCE_DIR}/iotivity-1.1.0
-    		 ${CMAKE_SOURCE_DIR}/../iotivity
-    		 ${CMAKE_SOURCE_DIR}/iotivity
+    		${CMAKE_SOURCE_DIR}/../iotivity
+            ${CMAKE_SOURCE_DIR}/iotivity
+            ${CMAKE_SOURCE_DIR}/../iotivity-1.1.0
+            ${CMAKE_SOURCE_DIR}/iotivity-1.1.0
     )
 
     find_path(IOTIVITY_LIBPATH librcs_client.so
     	PATHS
-    		${IOTIVITY_PATH}/out/linux/arm/release
-    		${IOTIVITY_PATH}/out/linux/x86_64/release
+    		${IOTIVITY_PATH}/out/linux/arm/${VERSION_TYPE}
+    		${IOTIVITY_PATH}/out/linux/x86_64/${VERSION_TYPE}
     )
+	find_path(IOTIVITY_WKSXMPPXEP_LIBPATH libwksxmppxep.so
+			PATHS
+			${IOTIVITY_PATH}/extlibs/wksxmppxep/wks_xep0047
+	)
+    find_path(IOTIVITY_STROPHE_LIBPATH libstrophe.so.0
+            PATHS
+            /lib
+            /usr/lib
+            /usr/local/lib)
 
     message(STATUS "IoTivity found at ${IOTIVITY_PATH}")
     message(STATUS "IoTivity libs at ${IOTIVITY_LIBPATH}")
@@ -31,6 +43,7 @@ include_directories(
 		"${IOTIVITY_PATH}/resource/include"
 		"${IOTIVITY_PATH}/resource/src"
 		"${IOTIVITY_PATH}/resource/csdk/stack/include"
+		"${IOTIVITY_PATH}/resource/csdk/include"
 		"${IOTIVITY_PATH}/resource/c_common/ocrandom/include"
 		"${IOTIVITY_PATH}/resource/csdk/logger/include"
 		"${IOTIVITY_PATH}/resource/oc_logger/include"
@@ -54,6 +67,8 @@ include_directories(
 
 link_directories(
 	    ${IOTIVITY_LIBPATH}
+		${IOTIVITY_WKSXMPPXEP_LIBPATH}
+        ${IOTIVITY_STROPHE_LIBPATH}
 		${CMAKE_SOURCE_DIR}/lib/jsoncpp/json
 )
 
