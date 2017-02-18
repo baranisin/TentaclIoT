@@ -4,12 +4,8 @@
 Client::Client() {
     platformConfigure();
     registeredResources = map<string, ResourceRepresentation*>{};
+    discoveredResources = map<string, RCSRemoteResourceObject::Ptr>{};
     config = new Configuration();
-}
-
-Client::~Client() {
-    stopDiscovery();
-    delete discoveryThread;
 }
 
 void Client::platformConfigure() {
@@ -31,49 +27,67 @@ void Client::platformConfigure() {
 
 void Client::outputActualConfiguration()  {
     if(isDiscovering()){
-        config->writeOutput(discoveryThread->getDiscoveredResources(), registeredResources);
+        config->writeOutput(discoveredResources, registeredResources);
 
         printActualDiscoveredResources();
     }
 }
 
 void Client::printActualDiscoveredResources(){
-    if(isDiscovering()){
-        discoveryThread->printResourceList();
+    for (const auto &res : discoveredResources) {
+        std::cout << "URI: " << res.second->getUri() << " has resource " << res.first << std::endl;
     }
 }
 
 bool Client::hasResourceDiscovered(const string &uri) {
-    if(isDiscovering()){
-        return discoveryThread->hasResource(uri);
-    }
 
 }
 
 void Client::startDiscovery(const vector<string> &types) {
-    if(!isDiscovering()){
-        if(types == EMPTY_STRING_VECTOR){
-            discoveryThread = new DiscoveryThread();
-        } else {
-            discoveryThread = new DiscoveryThread(types);
+    function<void(shared_ptr<RCSRemoteResourceObject>)> onResourceDiscoveredCallback;
+    onResourceDiscoveredCallback = bind(
+            &onResourceDiscovered,
+            this,
+            placeholders::_1
+    );
+    while (!discoveryTask) {
+        try {
+            discoveryTask = RCSDiscoveryManager::getInstance()->discoverResourceByTypes(
+                    RCSAddress::multicast(),
+                    EMPTY_STRING,
+                    types,
+                    onResourceDiscoveredCallback
+            );
         }
-        sleep(1);
-        discoveryThread->startDiscovering();
+        catch (const RCSPlatformException &e) {
+            cout << e.what() << endl;
+        }
     }
 
+    while (!discoveryTask->isCanceled()) {
+        sleep(SECONDS_TO_SLEEP_DISCOVERY);
+    };
+}
+
+void Client::onResourceDiscovered(shared_ptr<RCSRemoteResourceObject> discoveredResource) {
+    cout << "onResourceDiscovered callback :: " << endl;
+    string resAbsoluteURI = discoveredResource->getAddress() + discoveredResource->getUri();
+    cout << "resourceURI : " << resAbsoluteURI << endl;
+    cout << "hostAddress : " << discoveredResource->getAddress() << endl;
+
+    try {
+        discoveredResources[resAbsoluteURI] = discoveredResource;
+    } catch (out_of_range e) {
+        cout << e.what() << endl;
+    }
 }
 
 void Client::stopDiscovery() {
-    if(isDiscovering()){
-        discoveryThread->stopDiscovering();
-    }
+    discoveryTask->cancel();
 }
 
 bool Client::isDiscovering() {
-    if(discoveryThread == nullptr){
-        return false;
-    }
-    return discoveryThread->isRunningDiscovery();
+    return !discoveryTask->isCanceled();
 }
 
 void Client::registerResourceFromDiscovery(const vector<string> &uris, const string &type) {
@@ -83,7 +97,7 @@ void Client::registerResourceFromDiscovery(const vector<string> &uris, const str
             for (const string &uri : uris) {
                 try {
 
-                    RCSRemoteResourceObject::Ptr res = discoveryThread->getResource(uri);
+                    RCSRemoteResourceObject::Ptr res = getResource(uri);
                     string absURI = res->getAddress() + res->getUri();
                     builder.addResource(res);
 
@@ -143,6 +157,47 @@ void Client::setRules(Json::Value json) {
             r.registerAsListener();
         }
     }
+}
+
+map<string, RCSRemoteResourceObject::Ptr> Client::getDiscoveredResources() {
+    return discoveredResources;
+}
+
+RCSRemoteResourceObject::Ptr Client::getResource(const string &uri) {
+    if (!hasResource(uri)) {
+        throw NotInDiscoveredResException();
+    }
+    if (countDiscoveredResWithURI(uri) > 1) {
+        throw MoreResWithSameURIException();
+    }
+    string key = findDiscoveredResource(uri);
+    RCSRemoteResourceObject::Ptr ret = discoveredResources[key];
+
+    return ret;
+}
+
+bool Client::hasResource(const string &uri) {
+    return countDiscoveredResWithURI(uri) > 0;
+}
+
+unsigned int Client::countDiscoveredResWithURI(const string &uri) {
+    unsigned int count = 0;
+    for (const auto &resourceKeyValue : discoveredResources) {
+        if (resourceKeyValue.first.find(uri) != string::npos) {
+            count++;
+        }
+    }
+    return count;
+}
+
+string Client::findDiscoveredResource(const string &uri) {
+    for (const auto &resourceKeyValue : discoveredResources) {
+        if (resourceKeyValue.first.find(uri) != string::npos) {
+            return resourceKeyValue.first;
+        }
+    }
+
+    return FALSE_STRING_RETURN_VALUE;
 }
 
 

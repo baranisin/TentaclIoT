@@ -22,10 +22,13 @@ using namespace std;
 
 class Client {
 private:
-    DiscoveryThread* discoveryThread = nullptr;
+    unique_ptr<RCSDiscoveryManager::DiscoveryTask> discoveryTask;
+    map<string, RCSRemoteResourceObject::Ptr> discoveredResources;
     map<string, ResourceRepresentation*> registeredResources;
     Configuration *config;
     void platformConfigure();
+
+    void onResourceDiscovered(shared_ptr<RCSRemoteResourceObject> discoveredResource);
 
 public:
     Client();
@@ -52,6 +55,17 @@ public:
     bool hasResourceRegistered(const string &uri);
 
     void setRules(Json::Value json);
+
+    map<string, RCSRemoteResourceObject::Ptr> getDiscoveredResources();
+
+    RCSRemoteResourceObject::Ptr getResource(
+            const string &uri) throw(NotInDiscoveredResException, MoreResWithSameURIException);
+
+    bool hasResource(const string &uri);
+
+    unsigned int countDiscoveredResWithURI(const string &uri);
+
+    string findDiscoveredResource(const string &uri);
 };
 
 #endif
