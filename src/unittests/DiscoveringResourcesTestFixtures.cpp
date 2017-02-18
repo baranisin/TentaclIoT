@@ -48,12 +48,10 @@ TEST_F(DiscoveringResourcesTestFixtures, findResource){
 TEST_F(DiscoveringResourcesTestFixtures, registerRes){
     string uri = ls->getResourceURI();
     EXPECT_FALSE(client->hasResourceRegistered(uri));
-    EXPECT_TRUE(client->registerResourceFromDiscovery(uri));
     EXPECT_TRUE(client->hasResourceRegistered(uri));
 }
 
 TEST_F(DiscoveringResourcesTestFixtures, registerResNegative){
     EXPECT_FALSE(client->hasResourceRegistered(EMPTY_STRING));
-    EXPECT_FALSE(client->registerResourceFromDiscovery(EMPTY_STRING));
     EXPECT_FALSE(client->hasResourceRegistered(EMPTY_STRING));
 }

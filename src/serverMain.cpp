@@ -7,6 +7,7 @@ int main() {
     condition_variable run_stopped;
 
     LightServer *ls = new LightServer("svetielko");
+    ls->setPresenceOn();
 
     run_stopped.wait(lock);
 }

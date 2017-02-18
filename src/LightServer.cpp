@@ -14,9 +14,8 @@ LightServer::LightServer(const string &n) {
 
 void LightServer::buildServer(const string &rUri, const string &resourceType) {
     resource = RCSResourceObject::Builder(rUri, resourceType, ACTUATOR_INTERFACE)
-            .addInterface(CUSTOM_INTERFACE)
-            .addInterface(SENSOR_INTERFACE)
-            .setDefaultInterface(BASELINE_INTERFACE)
+            .addInterface(OC_RSRVD_INTERFACE_SENSOR)
+            .setDefaultInterface(OC_RSRVD_INTERFACE_DEFAULT)
             .setDiscoverable(true)
             .setObservable(true)
             .build();

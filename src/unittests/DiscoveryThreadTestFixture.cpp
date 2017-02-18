@@ -11,8 +11,8 @@ struct DiscoveryThreadTestFixture : testing::Test{
     DiscoveryThreadTestFixture(){
         DTallTypes = new DiscoveryThread();
         dt1 = new DiscoveryThread();
-        dt2 = new DiscoveryThread(LIGHT_TYPE);
-        dt3 = new DiscoveryThread(vector<string>{LIGHT_TYPE, TEMPERATURE_TYPE});
+        dt2 = new DiscoveryThread(OIC_LIGHT_TYPE);
+        dt3 = new DiscoveryThread(vector<string>{OIC_LIGHT_TYPE, OIC_TEMPERATURE_TYPE});
     }
 
     ~DiscoveryThreadTestFixture(){
