@@ -29,7 +29,6 @@ string Server::getName() {
     return name;
 }
 
-
 vector<string> Server::getResourceInterfaces() {
     return resource->getInterfaces();
 }
