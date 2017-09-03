@@ -1,5 +1,5 @@
 //
-// Created by kingofwolwes on 15.5.2016.
+// Created by Patrik Baranišin on 15.5.2016.
 //
 
 #ifndef IOTIVITY_BAKALARKA_NOTINDISCOVEREDRESEXCEPTION_H

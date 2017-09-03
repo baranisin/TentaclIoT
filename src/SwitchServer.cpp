@@ -1,5 +1,5 @@
 //
-// Created by kingofwolwes on 17.6.2016.
+// Created by Patrik Baranišin on 17.6.2016.
 //
 
 #include "SwitchServer.h"

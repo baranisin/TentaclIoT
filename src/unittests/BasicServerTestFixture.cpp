@@ -1,5 +1,5 @@
 //
-// Created by kingofwolwes on 7.5.2016.
+// Created by Patrik Baranišin on 7.5.2016.
 //
 #include "LightServer.h"
 #include "gtest/gtest.h"

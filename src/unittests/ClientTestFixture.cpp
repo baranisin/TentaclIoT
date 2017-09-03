@@ -1,47 +1,21 @@
-#include <gtest/gtest.h>
 #include <Client.h>
+#include "gtest/gtest.h"
 
 struct ClientTestFixture : testing::Test{
-    Client *client;
-    Client *client2;
 
-    ClientTestFixture(){
-        client = new Client();
-        client2 = new Client();
-    }
+    ClientTestFixture() = default;
 
-    ~ClientTestFixture(){
-        delete client;
-        delete client2;
-    }
+    ~ClientTestFixture() = default;
 
-    void SetUp() {
+    void SetUp() override {
 
     }
 
-    void TearDown() {
+    void TearDown() override {
 
     }
 };
 
-TEST_F(ClientTestFixture, isDiscovering){
-    EXPECT_FALSE(client->isDiscovering());
-    client->startDiscovery();
-    EXPECT_TRUE(client->isDiscovering());
-    client->startDiscovery();
-    EXPECT_TRUE(client->isDiscovering());
-    client->stopDiscovery();
-    EXPECT_FALSE(client->isDiscovering());
-    client->stopDiscovery();
-    EXPECT_FALSE(client->isDiscovering());
-    client->startDiscovery();
-    EXPECT_TRUE(client->isDiscovering());
-
-
-}
-
-TEST_F(ClientTestFixture, nonInitializatedDiscovery){
-    EXPECT_FALSE(client2->isDiscovering());
-    EXPECT_NO_THROW(client2->stopDiscovery());
-    EXPECT_FALSE(client2->isDiscovering());
+TEST_F(ClientTestFixture, init) {
+    Client test = Client();
 }

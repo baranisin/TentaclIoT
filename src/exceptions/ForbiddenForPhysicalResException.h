@@ -1,5 +1,5 @@
 //
-// Created by kingofwolwes on 20.5.2016.
+// Created by Patrik Baranišin on 20.5.2016.
 //
 
 #ifndef IOTIVITY_BAKALARKA_FORBIDDENFORPHYSICALRESEXCEPTION_H

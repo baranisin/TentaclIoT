@@ -38,7 +38,6 @@ static const int SECONDS_TO_SLEEP_TEST = 2;
 static const int SECONDS_TO_SLEEP_DISCOVERY = 1;
 static const int MIN_RANGE_TO_WAIT = 50;
 static const int MAX_RANGE_TO_WAIT = 1000;
-static const vector<string> EMPTY_STRING_VECTOR = vector<string>{};
 
 
 #endif //IOTIVITY_BAKALARKA_CONSTANTS_H

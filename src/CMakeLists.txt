@@ -23,6 +23,7 @@ set(CLIENT_SOURCE_FILES
         #        Constants.h
         Client.h
         Client.cpp
+        DiscoveryManager.cpp DiscoveryManager.h TypeDefs.h ServerModel.cpp ServerModel.h
         #[[     DiscoveryThread.cpp
              DiscoveryThread.h
              ${EXCEPTIONS_SOURCE_FILES}

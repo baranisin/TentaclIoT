@@ -1,5 +1,5 @@
 //
-// Created by kingofwolwes on 4.6.2016.
+// Created by Patrik Baranišin on 4.6.2016.
 //
 
 #include "Rule.h"
